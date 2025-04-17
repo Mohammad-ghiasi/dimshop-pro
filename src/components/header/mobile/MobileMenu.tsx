@@ -16,15 +16,15 @@ export default function MobileMenu() {
 
   return (
     <div className="w-full bg-background flex items-center justify-center border-t md:hidden ">
-      <div className="flex flex-row justify-between items-center w-full px-3 py-2">
+      <div className="flex flex-row justify-between items-center w-full px-3">
         {links.map((link) => (
           <Link
             key={link.href}
             href={link.href}
             className={cn(
-              "p-2 rounded-md transition-all",
+              "p-2 transition-all",
               pathname === link.href
-                ? "text-customgreen scale-105 font-semibold" // استایل فعال
+                ? "text-customgreen scale-110 font-bold" // استایل فعال
                 : "text-muted-foreground" // استایل معمولی
             )}
           >
