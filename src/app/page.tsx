@@ -2,6 +2,7 @@
 import Link from "next/link";
 import TsetImage from "./TsetImage";
 import ThemeImage from "@/components/Theme-Image";
+import { ThemeToggleButton } from "@/components/Toggle-mode";
 
 export default function Home() {
   
@@ -15,6 +16,7 @@ export default function Home() {
       </Link>
       
       <ThemeImage w={600} h={200} />
+      <ThemeToggleButton />
 
 
       <p className="mt-4">
