@@ -8,7 +8,7 @@ import { DrawerDialogDemo } from "./comp/ResponDialog";
 import { AlertDialogDemo } from "./comp/AlertDialog";
 import { SheetDemo } from "./comp/Sheet";
 
-export default function page() {
+export default function Page() {
   const [loading, setLoading] = useState<boolean>(false);
   const { toast } = useToast();
 
