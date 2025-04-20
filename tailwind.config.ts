@@ -66,6 +66,10 @@ const config: Config = {
           DEFAULT: "hsl(var(--custom-green))",
           foreground: "hsl(var(--destructive-foreground))",
         },
+        customgreenhover: {
+          DEFAULT: "hsl(var(--custom-green-hover))",
+          foreground: "hsl(var(--destructive-foreground))",
+        },
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",

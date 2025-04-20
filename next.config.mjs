@@ -1,38 +1,53 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // ✅ Image Optimization برای WebP و AVIF
-  images: {
-    formats: ["image/webp", "image/avif"],
-    domains: [], // اگر عکس از دامنه خاصی لود می‌کنی
-  },
+  // images: {
+  //   formats: ["image/webp", "image/avif"],
+  //   domains: [],  // دامنه‌های معتبر
+  // },
 
-  // ✅ Webpack config برای SVG
-  webpack(config) {
-    config.module.rules.push({
-      test: /\.svg$/,
-      use: ["@svgr/webpack"],
-    });
-    return config;
-  },
+  // swcMinify: true, // Minify JS
 
-  // ✅ Minify و بهینه‌سازی JS
-  swcMinify: true,
+  // reactStrictMode: true, // React Strict Mode
 
-  // ✅ React Strict Mode
-  reactStrictMode: true,
+  // output: 'standalone', // Static Output for SEO & Speed
 
-  // ✅ Static Output برای بهبود SEO و سرعت
-  output: 'standalone',
+  // experimental: {
+  //   optimizeCss: true, // CSS Optimization
+  // },
 
-  // ✅ فعال‌سازی بهینه‌سازی CSS
-  experimental: {
-    optimizeCss: true,
-  },
+  // compiler: {
+  //   removeConsole: process.env.NODE_ENV === "production", // حذف console.log
+  // },
 
-  // ✅ حذف console.log در production
-  compiler: {
-    removeConsole: process.env.NODE_ENV === "production",
-  },
+  // headers: async () => [
+  //   {
+  //     source: '/(.*)',
+  //     headers: [
+  //       {
+  //         key: 'Cache-Control',
+  //         value: 'public, max-age=31536000, immutable', // Caching Static Files
+  //       },
+  //     ],
+  //   },
+  // ],
+
+  // pwa: {
+  //   dest: "public", // PWA Support
+  //   disable: process.env.NODE_ENV === "development",
+  // },
+
+  // Optionally preloading fonts
+  // head: {
+  //   link: [
+  //     {
+  //       rel: "preload",
+  //       href: "https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap",
+  //       as: "font",
+  //       type: "font/woff2",
+  //       crossorigin: "anonymous",
+  //     },
+  //   ],
+  // },
 };
 
 export default nextConfig;

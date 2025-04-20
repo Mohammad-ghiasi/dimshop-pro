@@ -20,7 +20,7 @@ export default function ThemeImage({ w, h, className, ...rest }: ThemeImageProps
 
   if (!mounted) return null;
 
-  const imageSrc = theme === "dark" ? "/images/dark-logo.png" : "/images/light-logo.png";
+  const imageSrc = theme === "dark" ? "/images/dark-logo.webp" : "/images/light-logo.webp";
 
   return (
     <Image
@@ -30,8 +30,9 @@ export default function ThemeImage({ w, h, className, ...rest }: ThemeImageProps
       height={h}
       className={className}
       {...rest}
-      loading="lazy"
-      
+      loading="eager"
+      priority 
+      fetchPriority="high"
     />
   );
 }

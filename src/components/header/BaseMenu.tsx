@@ -1,18 +1,22 @@
-import { ThemeToggleButton } from "../Toggle-mode";
 import Link from "next/link";
 import { ShoppingCart } from "lucide-react";
-import Menu from "./Menu";
-import ThemeImage from "../Theme-Image";
-import HeaderPrvider from "../providers/HeaderPrvider";
+import HeaderPrvider from "../ui-providers/HeaderPrvider";
 import dynamic from "next/dynamic";
+import ThemeImage from "../Theme-Image";
+import ThemeToggleButton from "../Toggle-mode";
+import Menu from "./Menu";
 
-const DesktopSearchBarModall = dynamic(() => import("./desktop/DesktopSearchModal"), {
-  ssr: false,
-});
+const DesktopSearchBarModall = dynamic(
+  () => import("./desktop/DesktopSearchModal"),
+  {
+    ssr: false,
+  }
+);
 
 const MobileSerchDrawer = dynamic(() => import("./mobile/MobileSerchDrawer"), {
   ssr: false,
 });
+
 
 export default function BaseMenu() {
   return (

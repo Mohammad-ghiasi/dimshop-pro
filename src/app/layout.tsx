@@ -1,29 +1,9 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
 import "./globals.css";
-import { ThemeProvider } from "@/providers/theme-provider";
-import { Toaster } from "@/components/ui/toaster";
-import localFont from 'next/font/local';
-import dynamic from "next/dynamic";
-const FullMenu = dynamic(() => import("@/components/header/FullMenu"), {ssr: false});
-
-const dana = localFont({
-  src: [
-    {
-      path: '../../public/fonts/dana-demibold.woff2',
-      weight: '600', // یا هر وزن دیگه‌ای که استفاده می‌کنی
-      style: 'normal',
-    },
-    {
-      path: '../../public/fonts/dana-demibold.woff2',
-      weight: '600',
-      style: 'normal',
-    }
-  ],
-  display: 'swap',  // همونطور که در @font-face داشتیم
-})
-
-const inter = Inter({ subsets: ["latin"] });
+import  ThemeProvider  from "@/providers/theme-provider";
+import  Toaster  from "@/components/ui/toaster";
+import { dana } from "./styles/fonts";
+import ReactQueryProvider from "@/providers/reactquery-provider";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -36,21 +16,20 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html  lang="fa" dir="rtl" suppressHydrationWarning>
+    <html lang="fa" dir="rtl" suppressHydrationWarning>
       <body className={dana.className}>
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="light"
-          enableSystem
-          disableTransitionOnChange
-        >
-          <main>
-            <FullMenu />
-            {children}
-            </main>
-          <Toaster />
-        </ThemeProvider>
+        <ReactQueryProvider>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="light"
+            enableSystem
+            disableTransitionOnChange
+          >
+            <main>{children}</main>
+            <Toaster />
+          </ThemeProvider>
+        </ReactQueryProvider>
       </body>
     </html>
   );
-};
+}
