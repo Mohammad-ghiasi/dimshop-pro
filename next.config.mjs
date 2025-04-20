@@ -1,23 +1,23 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  images: {
-    formats: ["image/webp", "image/avif"],
-    domains: [],  // دامنه‌های معتبر
-  },
+  // images: {
+  //   formats: ["image/webp", "image/avif"],
+  //   domains: [],  // دامنه‌های معتبر
+  // },
 
-  swcMinify: true, // Minify JS
+  // swcMinify: true, // Minify JS
 
-  reactStrictMode: true, // React Strict Mode
+  // reactStrictMode: true, // React Strict Mode
 
-  output: 'standalone', // Static Output for SEO & Speed
+  // output: 'standalone', // Static Output for SEO & Speed
 
-  experimental: {
-    optimizeCss: true, // CSS Optimization
-  },
+  // experimental: {
+  //   optimizeCss: true, // CSS Optimization
+  // },
 
-  compiler: {
-    removeConsole: process.env.NODE_ENV === "production", // حذف console.log
-  },
+  // compiler: {
+  //   removeConsole: process.env.NODE_ENV === "production", // حذف console.log
+  // },
 
   // headers: async () => [
   //   {
