@@ -1,26 +1,21 @@
 // "use client"
-// import Link from "next/link";
-// import ThemeImage from "@/components/Theme-Image";
-// import  ThemeToggleButton  from "@/components/Toggle-mode";
+import Link from "next/link";
+import ThemeImage from "@/components/Theme-Image";
+import ThemeToggleButton from "@/components/Toggle-mode";
 import FullMenu from "@/components/header/FullMenu";
-import dynamic from "next/dynamic";
-// const FullMenu = dynamic(() => import("@/components/header/FullMenu"), {
-//   ssr: false,
-// });
 
 export default function Home() {
-  
   return (
     <>
       <FullMenu />
-      <p>hello world</p>
-      {/* <div className="bg-background mx-auto  max-w-[1300px]  px-3 ms:px-2 lg:px-0 mt-20">
+      <div className="bg-background mx-auto  max-w-[1300px]  px-3 ms:px-2 lg:px-0 mt-20">
         <Link
           href="/test"
           className="text-lg font-semibold underline hover:text-gray-600 transition-all"
         >
           To tests components
         </Link>
+      
 
         <ThemeImage w={600} h={200} />
         <ThemeToggleButton />
@@ -392,7 +387,7 @@ export default function Home() {
           voluptas explicabo aperiam, laboriosam perferendis? Laudantium
           commodi, dolorum voluptatum corrupti similique ad.
         </p>
-      </div> */}
+      </div>
     </>
   );
 }

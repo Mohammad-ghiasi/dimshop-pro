@@ -2,11 +2,11 @@ import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
 export function middleware(request: NextRequest) {
-  const token = request.cookies.get("token");
+  const token = request.cookies.get("authToken");
   const phoneNumber = request.cookies.get("phoneNumber");
 
-  const loginUrl = new URL("/login", request.url);
-  const signupUrl = new URL("/signup", request.url);
+  const loginUrl = new URL("/login", request.nextUrl.origin); // use nextUrl.origin
+  const signupUrl = new URL("/signup", request.nextUrl.origin); // use nextUrl.origin
 
   const path = request.nextUrl.pathname;
 

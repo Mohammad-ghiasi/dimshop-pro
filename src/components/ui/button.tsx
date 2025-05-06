@@ -52,8 +52,8 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         disabled={disabled || loading} // دکمه غیرفعال وقتی loading فعاله
         {...props}
       >
-        {loading && <Loader2 className="animate-spin" />} {/* اسپینر */}
         {children}
+        {loading && <Loader2 className="animate-spin" />} {/* اسپینر */}
       </Comp>
     )
   }

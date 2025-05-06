@@ -24,31 +24,50 @@ import { useEffect, useState } from "react";
 import { eraseCookie, getCookie, getSimpleCookie } from "@/lib/cookies";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useQuery } from "@tanstack/react-query";
+import { UserProfile } from "@/types/useProfile";
+import api from "@/lib/api";
 
 export default function Menu() {
   const router = useRouter();
   const { theme, setTheme } = useTheme();
   const [login, setLogin] = useState<boolean>(false);
   const [admin, setAdmin] = useState<boolean>(false);
-  const [userName, setUserName] = useState<string | null>(null);
+  const [token, setToken] = useState<string | null>(null);
+
+  useEffect(() => {
+    const tokenData = getSimpleCookie("authToken");
+    setToken(tokenData);
+  }, []);
+
+  const { data } = useQuery<UserProfile, Error>({
+    queryKey: ["userProfile"],
+    queryFn: async () => {
+      const res = await api.get("/Account/GetProfile", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      // console.log(res.data.user);
+
+      return res.data;
+    },
+    enabled: !!token,
+  });
 
   useEffect(() => {
     const token = getSimpleCookie("authToken");
     const admin = getCookie("userRole");
-    const userName = getCookie("userPhone");
-    const userPhone = getCookie("userName");
-
     token ? setLogin(true) : null;
     admin === "Admin" ? setAdmin(true) : null;
-    userName ? setUserName(userName) : setUserName(userPhone);
   }, []);
 
-  const handleLogout =  () => {
+  const handleLogout = () => {
     eraseCookie("authToken");
     eraseCookie("userName");
     eraseCookie("userPhone");
     eraseCookie("userRole");
-     router.push("/");
+    router.push("/");
 
     setTimeout(
       () => window.location.reload(), // Refresh the page
@@ -58,11 +77,12 @@ export default function Menu() {
   return (
     <>
       {!login ? (
-        <Avatar className="h-8 w-8 md:h-10 md:w-10 shadow-md cursor-pointer rounded-full overflow-hidden">
-          <Link href="/signup">
-            <AvatarFallback className="pt-2">US</AvatarFallback>
-          </Link>
-        </Avatar>
+      //  <Skeleton className="h-8 w-8 md:h-10 md:w-10 rounded-full" />
+      <Avatar className="h-8 w-8 md:h-10 md:w-10 shadow-md cursor-pointer rounded-full overflow-hidden">
+      <Link href="/signup">
+        <AvatarFallback className="pt-2">US</AvatarFallback>
+      </Link>
+    </Avatar>
       ) : (
         <Menubar className="  border-none shadow-none">
           <MenubarMenu>
@@ -73,29 +93,29 @@ export default function Menu() {
                 {" "}
                 {/* اندازه ثابت */}
                 <AvatarImage
-                  src="https://github.com/shadcn.png"
+                  src={data?.user.imagePath}
                   className="object-cover"
                   loading="lazy"
                 />{" "}
                 {/* جلوگیری از کشیدگی */}
-                <AvatarFallback>CN</AvatarFallback>
+                <AvatarFallback>US</AvatarFallback>
               </Avatar>
             </MenubarTrigger>
             <MenubarContent>
               <MenubarItem>
                 <div className="flex w-full justify-end items-center space-x-3">
-                  <span>{userName}</span>
+                <span>{data?.user.firstName || data?.user.phoneNumber}</span>
                   <span className="w-12 h-12 p-0 rounded-full overflow-hidden focus:scale-100 border">
                     {
                       <Avatar className="h-10 w-10 shadow-md cursor-pointer">
                         {" "}
                         {/* اندازه ثابت */}
                         <AvatarImage
-                          src="https://github.com/shadcn.png"
+                          src={data?.user.imagePath}
                           className="object-cover"
                         />{" "}
                         {/* جلوگیری از کشیدگی */}
-                        <AvatarFallback>CN</AvatarFallback>
+                        <AvatarFallback>US</AvatarFallback>
                       </Avatar>
                     }
                   </span>
@@ -111,10 +131,13 @@ export default function Menu() {
                 </MenubarItem>
               )}
               <MenubarItem>
-                <div className="flex w-full justify-end space-x-3">
+                <Link
+                  href="/userpanel"
+                  className="flex w-full justify-end space-x-3"
+                >
                   <span>پیشخوان</span>
                   <span>{<House className="h-5 w-5" />}</span>
-                </div>
+                </Link>
               </MenubarItem>
               <MenubarItem>
                 <div className="flex w-full justify-end space-x-3">

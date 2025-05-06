@@ -3,10 +3,10 @@ import { useState, useEffect, useRef, useCallback } from "react";
 import { debounce } from "lodash";
 import dynamic from "next/dynamic";
 import BaseMenu from "./BaseMenu";
-import MobileMenu from "./mobile/MobileMenu";
+// import MobileMenu from "./mobile/MobileMenu";
 
 // const BaseMenu = dynamic(() => import("./BaseMenu"), { ssr: false });
-// const MobileMenu = dynamic(() => import("./mobile/MobileMenu"), { ssr: false });
+const MobileMenu = dynamic(() => import("./mobile/MobileMenu"), { ssr: false });
 
 export default function FullMenu() {
   const [scrollingStatus, setScrollingStatus] = useState<

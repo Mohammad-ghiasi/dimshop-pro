@@ -5,30 +5,32 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Smartphone } from "lucide-react";
 import ThemeImage from "@/components/Theme-Image";
-import { danaExtraBold, danaLight } from "../styles/fonts";
+import { danaExtraBold } from "../styles/fonts";
 import { useRouter } from "next/navigation";
 import { setCookie, setSimpleCookie } from "@/lib/cookies";
 import api from "@/lib/api";
 import { toast } from "@/hooks/use-toast";
-
-
+import { phoneNumberType } from "@/types/loginSignup";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { loginSchema } from "@/yup/loginSigupReolver";
 
 export default function SignupPage() {
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
-  } = useForm<{ phone: string }>();
+  } = useForm<phoneNumberType>({
+    resolver: yupResolver(loginSchema),
+  });
   const router = useRouter();
 
-  const onSubmit = async (data: { phone: string }) => {
+  const onSubmit = async (data: phoneNumberType) => {
     try {
       const res = await api.post("/Account/PhoneNumber", {
-        phoneNumber: data.phone,
+        phoneNumber: data.phonenumber,
       });
-      console.log(res);
 
-      setCookie("phoneNumber", data.phone, 1);
+      setCookie("phoneNumber", data.phonenumber, 1);
       setSimpleCookie("hashCode", res.data.hashCode, 1);
       //********
       setSimpleCookie("code", res.data.code, 1);
@@ -47,7 +49,7 @@ export default function SignupPage() {
     <div className="flex justify-center items-center h-screen w-full">
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="bg-background rounded-2xl md:shadow-xl dark:md:shadow-gray-900 w-full max-w-lg space-y-4 py-4 px-3 md:px-4"
+        className="bg-background rounded-2xl md:shadow-xl dark:md:shadow-gray-900 w-full max-w-lg space-y-4 py-4 px-5 md:px-4"
       >
         <div className="flex justify-center mb-10">
           <ThemeImage w={200} h={20} />
@@ -61,34 +63,22 @@ export default function SignupPage() {
             لطفا شماره موبایل خود را وارد کنید
           </p>
           <div className="relative">
-            <Smartphone className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground w-5 h-5" />
+            <Smartphone className="absolute right-3 top-[21px] -translate-y-1/2 text-muted-foreground w-5 h-5" />
             <Input
               id="phone"
-              className={`pr-10 py-5 ring-1 text-muted-foreground ${
-                errors.phone ? "ring-destructive" : ""
-              }`}
-              {...register("phone", {
-                required: "شماره تلفن الزامی است",
-                pattern: {
-                  value: /^(\+98|0)?9\d{9}$/,
-                  message: "شماره تلفن معتبر نیست",
-                },
-              })}
+              className="pr-10 py-5 ring-1 text-muted-foreground"
+              {...register("phonenumber")}
+              error={Boolean(errors.phonenumber)}
+              errorMessage={errors.phonenumber?.message}
             />
           </div>
-          {errors.phone && (
-            <p
-              className={`${danaLight.className} text-destructive text-[10px] md:text-[12px]`}
-            >
-              {errors.phone.message}
-            </p>
-          )}
         </div>
         <Button
           type="submit"
           variant={"dimsop"}
           loading={isSubmitting}
           className="w-full py-5 "
+          aria-label="signup-button"
         >
           ورود
         </Button>

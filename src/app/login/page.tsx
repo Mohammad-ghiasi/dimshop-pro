@@ -8,7 +8,7 @@ import {
 } from "@/components/ui/input-otp";
 import { Button } from "@/components/ui/button";
 import ThemeImage from "@/components/Theme-Image";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { danaExtraBold, danaLight } from "../styles/fonts";
 import {
@@ -21,6 +21,9 @@ import {
 import { persianNumbers } from "@/lib/parsianNumber";
 import { useToast } from "@/hooks/use-toast";
 import api from "@/lib/api";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { otpSchema } from "@/yup/loginSigupReolver";
+import { otpNumberType } from "@/types/loginSignup";
 
 export default function LoginPage() {
   const [phoneNumber, setPhoneNumber] = useState<string | undefined>(undefined);
@@ -33,9 +36,10 @@ export default function LoginPage() {
     handleSubmit,
     watch,
     formState: { errors, isSubmitting },
-  } = useForm<{ code: string }>({
+  } = useForm<otpNumberType>({
     defaultValues: { code: "" },
     mode: "onChange", // به محض تغییر هر ورودی، اعتبارسنجی انجام بشه
+    resolver: yupResolver(otpSchema),
   });
 
   const code = watch("code");
@@ -51,33 +55,27 @@ export default function LoginPage() {
     });
   }, [toast]);
 
-  useEffect(() => {
-    if (/^\d{4}$/.test(code)) {
-      onSubmit({ code });
-    }
-  }, [code, onsubmit]);
 
-  const onSubmit = async ({ code }: { code: string }) => {
+
+  const onSubmit = useCallback(async ({ code }: { code: string }) => {
     try {
-      console.log(code);
       const phoneNumber = getCookie("phoneNumber");
       const confirmCode = getSimpleCookie("hashCode");
-
+  
       const res = await api.post("/Account/VerifiCode", {
         phoneNumber,
         code,
         confirmCode,
       });
+  
       if (res.data !== false) {
-        console.log(res);
         setSimpleCookie("authToken", res.data.token, 7);
         setCookie("userPhone", res.data.phoneNumber, 7);
         setCookie("userRole", res.data.role, 7);
         eraseCookie("phoneNumber");
         eraseCookie("hashCode");
-        // ********
         eraseCookie("code");
-        // ********
+  
         router.push("/");
       } else {
         toast({
@@ -85,14 +83,23 @@ export default function LoginPage() {
           variant: "destructive",
         });
       }
-    } catch (error) {}
-  };
+    } catch (error) {
+      // هندل خطا می‌تونه اینجا بهتر باشه (مثل نمایش toast خطا)
+      console.error(error);
+    }
+  }, [router, toast]);
+
+  useEffect(() => {
+    if (/^\d{4}$/.test(code)) {
+      onSubmit({ code });
+    }
+  }, [code, onSubmit]);
 
   return (
     <div className="flex justify-center items-center h-screen w-full">
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="bg-background rounded-2xl md:shadow-xl dark:md:shadow-gray-900 w-full max-w-lg space-y-4 py-4 px-3 md:px-4"
+        className="bg-background rounded-2xl md:shadow-xl dark:md:shadow-gray-900 w-full max-w-lg space-y-4 py-4 px-5 md:px-4"
       >
         <div className="flex justify-center mb-10">
           <ThemeImage w={200} h={20} />
