@@ -58,7 +58,7 @@ export default function Page() {
         {/* منوی ابزار */}
         <div>
           <div className="flex items-center gap-1 sm:gap-2 md:gap-3 lg:gap-4 flex-shrink-0">
-            <ShoppingCart size={20} />
+            <ShoppingCart  />
 
             <div className="hidden lg:block">
               <ThemeToggleButton />
