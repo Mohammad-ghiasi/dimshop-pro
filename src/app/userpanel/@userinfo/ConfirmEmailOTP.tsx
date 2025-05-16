@@ -66,7 +66,7 @@ export default function ConfirmEmailOTP({ email }: { email: string }) {
       }
       // console.log(res);
     },
-    [code]
+    [ email, mutation, toast]
   );
 
   useEffect(() => {
@@ -74,12 +74,12 @@ export default function ConfirmEmailOTP({ email }: { email: string }) {
       description: "کد تایید به ایمیل شما ارسال شد",
       variant: "info",
     });
-  }, []);
+  }, [toast]);
   useEffect(() => {
     if (/^\d{4}$/.test(code)) {
       onSubmit({ code });
     }
-  }, [code, onSubmit]);
+  }, [code, onSubmit, toast]);
   return (
     <div className="flex flex-col mt-6 w-full text-end p-0">
       <div className="">

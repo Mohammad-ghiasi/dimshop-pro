@@ -12,7 +12,7 @@ import { danaBold } from "../styles/fonts";
 import SheetNav from "@/components/navigation/SheetNav";
 
 
-export default function page() {
+export default function Page() {
   const { token } = useAuth();
   const { data } = useQuery<UserProfile, Error>({
     queryKey: ["userProfile"],
