@@ -29,6 +29,5 @@ export function middleware(request: NextRequest) {
 }
 
 export const config = {
-  //userpanels ---> userpanel
-  matcher: ["/userpanels", "/ticket", "/chart", "/adminpanel", "/login"],
+  matcher: ["/userpanel", "/ticket", "/chart", "/adminpanel", "/login"],
 };
