@@ -64,7 +64,7 @@ export default function SheetNav({ data }: { data?: UserProfile }) {
   return (
     <Sheet>
       <SheetTrigger asChild>
-        <AlignJustify size={20}/>
+        <AlignJustify />
       </SheetTrigger>
       <SheetContent className="w-[70%] p-0">
         <SheetHeader className="px-2">
@@ -96,17 +96,17 @@ export default function SheetNav({ data }: { data?: UserProfile }) {
               {/* <Test /> */}
               <div className="flex justify-between items-center cursor-pointer transition-all hover:text-muted-foreground py rounded-lg">
                 <div className="flex items-center gap-x-2 ">
-                  <User className="" size={19} />
-                  <span className="text-[15px]">حساب کاربری</span>
+                  <User className="" size={22} />
+                  <span className="">حساب کاربری</span>
                 </div>
-                <ChevronLeft className="" size={13} />
+                <ChevronLeft className="" size={15} />
               </div>
 
               <div className="w-full px-4">
                 {/* <ScrollNav className="text-sm" text="سفارش های من" to="orders" /> */}
                 <ScrollNav
                   to="userinfo"
-                  className={`text-xs ${active === "userinfo" ? "text-[#0DA5E9]" : ""}`}
+                  className={`text-sm ${active === "userinfo" ? "text-[#0DA5E9]" : ""}`}
                 >
                   <SheetPrimitive.Close className="w-full">
                     <div
@@ -114,16 +114,16 @@ export default function SheetNav({ data }: { data?: UserProfile }) {
                       className="flex justify-between items-center cursor-pointer transition-all  py-4 rounded-lg"
                     >
                       <div className="flex items-center gap-x-2">
-                        <UserPen size={16} />
-                        <span className="text-s">ویرایش حساب</span>
+                        <UserPen size={18} />
+                        <span className="text-sm">ویرایش حساب</span>
                       </div>
-                      <ChevronLeft size={12} />
+                      <ChevronLeft size={13} />
                     </div>
                   </SheetPrimitive.Close>
                 </ScrollNav>
                 <ScrollNav
                   to="orders"
-                  className={`text-xs ${active === "orders" ? "text-[#0DA5E9]" : ""}`}
+                  className={`text-sm ${active === "orders" ? "text-[#0DA5E9]" : ""}`}
                 >
                   <SheetPrimitive.Close className="w-full">
                     <div
@@ -131,16 +131,16 @@ export default function SheetNav({ data }: { data?: UserProfile }) {
                       className="flex justify-between items-center cursor-pointer transition-all  py-4 rounded-lg"
                     >
                       <div className="flex items-center gap-x-2">
-                        <Package size={16} />
-                        <span className="">سفارش های من</span>
+                        <Package size={18} />
+                        <span className="text-sm">سفارش های من</span>
                       </div>
-                      <ChevronLeft size={12} />
+                      <ChevronLeft size={13} />
                     </div>
                   </SheetPrimitive.Close>
                 </ScrollNav>
                 <ScrollNav
                   to="likes"
-                  className={`text-xs ${active === "likes" ? "text-[#0DA5E9]" : ""}`}
+                  className={`text-sm ${active === "likes" ? "text-[#0DA5E9]" : ""}`}
                 >
                   <SheetPrimitive.Close className="w-full">
                     <div
@@ -148,16 +148,16 @@ export default function SheetNav({ data }: { data?: UserProfile }) {
                       className="flex justify-between items-center cursor-pointer transition-all  py-4 rounded-lg"
                     >
                       <div className="flex items-center gap-x-2">
-                        <Heart size={16} />
-                        <span className="">مورد علاقه ها</span>
+                        <Heart size={18} />
+                        <span className="text-sm">مورد علاقه ها</span>
                       </div>
-                      <ChevronLeft size={12} />
+                      <ChevronLeft size={13} />
                     </div>
                   </SheetPrimitive.Close>
                 </ScrollNav>
                 <ScrollNav
                   to="visited"
-                  className={`text-xs ${active === "visited" ? "text-[#0DA5E9]" : ""}`}
+                  className={`text-sm ${active === "visited" ? "text-[#0DA5E9]" : ""}`}
                 >
                   <SheetPrimitive.Close className="w-full">
                     <div
@@ -165,10 +165,10 @@ export default function SheetNav({ data }: { data?: UserProfile }) {
                       className="flex justify-between items-center cursor-pointer transition-all  py-4 rounded-lg"
                     >
                       <div className="flex items-center gap-x-2">
-                        <Eye className="t" size={16} />
-                        <span className="">بازدید های اخیر</span>
+                        <Eye className="t" size={18} />
+                        <span className="text-sm">بازدید های اخیر</span>
                       </div>
-                      <ChevronLeft size={12} />
+                      <ChevronLeft size={13} />
                     </div>
                   </SheetPrimitive.Close>
                 </ScrollNav>
@@ -179,20 +179,20 @@ export default function SheetNav({ data }: { data?: UserProfile }) {
                 className="flex justify-between items-center cursor-pointer transition-all hover:text-muted-foreground rounded-lg"
               >
                 <div className="flex items-center gap-x-2">
-                  <ShoppingCart size={19} />
-                  <span className="text-[15px]">سبد خرید</span>
+                  <ShoppingCart size={22} />
+                  <span>سبد خرید</span>
                 </div>
-                <ChevronLeft size={13} />
+                <ChevronLeft size={15} />
               </Link>
               <Link
                 href="/ticket"
                 className="flex justify-between items-center cursor-pointer transition-all hover:text-muted-foreground py-4 rounded-lg"
               >
                 <div className="flex items-center gap-x-2">
-                  <MessageSquare size={19} />
-                  <span className="text-[15px]">تیکت ها</span>
+                  <MessageSquare size={22} />
+                  <span>تیکت ها</span>
                 </div>
-                <ChevronLeft size={13} />
+                <ChevronLeft size={15} />
               </Link>
             </div>
 
@@ -204,9 +204,9 @@ export default function SheetNav({ data }: { data?: UserProfile }) {
                 className="flex justify-between items-center  bg-input px-6 py-4 rounded-lg cursor-pointer"
               >
                 <div className="flex items-center gap-x-2">
-                  <span className="text-sm">خروج از حساب</span>
+                  <span >خروج از حساب</span>
                 </div>
-                <LogOut size={20}/>
+                <LogOut />
               </div>
             </div>
           </div>
