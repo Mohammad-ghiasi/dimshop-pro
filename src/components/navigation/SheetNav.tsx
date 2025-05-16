@@ -64,7 +64,7 @@ export default function SheetNav({ data }: { data?: UserProfile }) {
   return (
     <Sheet>
       <SheetTrigger asChild>
-        <AlignJustify />
+        <AlignJustify size={20}/>
       </SheetTrigger>
       <SheetContent className="w-[70%] p-0">
         <SheetHeader className="px-2">

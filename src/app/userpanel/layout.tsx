@@ -1,20 +1,6 @@
 import { AuthProvider } from "@/components/AuthProvider";
-import api from "@/lib/api";
-import {
-  ChevronLeft,
-  Heart,
-  LogOut,
-  Logs,
-  MessageSquare,
-  Package,
-  ShoppingCart,
-  Sun,
-  User,
-} from "lucide-react";
 import type { Metadata } from "next";
 import { cookies } from "next/headers";
-import Image from "next/image";
-import Link from "next/link";
 // import Test from "./@userinfo/Test";
 import dynamic from "next/dynamic";
 // import UserPanelNavigationBar from "@/components/navigation/UserPanelNavigationBar";
@@ -44,12 +30,6 @@ export default async function UserLayouLayout({
   visited: React.ReactNode;
 }>) {
   const token: string | null = cookies().get("authToken")?.value ?? null;
-  const { data } = await api.get("/Account/GetProfile", {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
-  console.log(data.user.imagePath);
 
   return (
     <>
