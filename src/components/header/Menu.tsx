@@ -62,7 +62,7 @@ export default function Menu() {
     admin === "Admin" ? setAdmin(true) : null;
   }, []);
 
-  const handleLogout = () => {
+const handleLogout = () => {
     eraseCookie("authToken");
     eraseCookie("userName");
     eraseCookie("userPhone");
@@ -77,12 +77,12 @@ export default function Menu() {
   return (
     <>
       {!login ? (
-      //  <Skeleton className="h-8 w-8 md:h-10 md:w-10 rounded-full" />
-      <Avatar className="h-8 w-8 md:h-10 md:w-10 shadow-md cursor-pointer rounded-full overflow-hidden">
-      <Link href="/signup">
-        <AvatarFallback className="pt-2">US</AvatarFallback>
-      </Link>
-    </Avatar>
+        //  <Skeleton className="h-8 w-8 md:h-10 md:w-10 rounded-full" />
+        <Avatar className="h-8 w-8 md:h-10 md:w-10 shadow-md cursor-pointer rounded-full overflow-hidden">
+          <Link href="/signup">
+            <AvatarFallback className="pt-2">US</AvatarFallback>
+          </Link>
+        </Avatar>
       ) : (
         <Menubar className="  border-none shadow-none">
           <MenubarMenu>
@@ -104,7 +104,7 @@ export default function Menu() {
             <MenubarContent>
               <MenubarItem>
                 <div className="flex w-full justify-end items-center space-x-3">
-                <span>{data?.user.firstName || data?.user.phoneNumber}</span>
+                  <span>{data?.user.firstName || data?.user.phoneNumber}</span>
                   <span className="w-12 h-12 p-0 rounded-full overflow-hidden focus:scale-100 border">
                     {
                       <Avatar className="h-10 w-10 shadow-md cursor-pointer">

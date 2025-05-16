@@ -10,6 +10,7 @@ import {
   InputOTPSlot,
 } from "@/components/ui/input-otp";
 import { useToast } from "@/hooks/use-toast";
+import { useApiMutation } from "@/hooks/useMutation";
 import api from "@/lib/api";
 import { verifyEmai } from "@/lib/emailSender";
 import { otpNumberType } from "@/types/loginSignup";
@@ -41,42 +42,18 @@ export default function ConfirmEmailOTP({ email }: { email: string }) {
   });
   const code = watch("code");
 
-  const mutation = useMutation({
-    mutationFn: async (updatedData: string) => {
-      const res = await api.put(
-        `/Account/VerifyEmail?email=${email}`,
-        updatedData,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      return res.data;
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["userProfile"] });
-      toast({
-        description: "اطلاعات با موفقیت ذخیره شد",
-        variant: "success",
-      });
-    },
-    onError: (error) => {
-      console.error("خطا در ذخیره اطلاعات:", error);
-      toast({
-        description: "خطایی در ذخیره اطلاعت پیش اومده",
-        variant: "destructive",
-      });
-    },
-  });
+    const mutation = useApiMutation({
+      method: "put",
+      url: "/Account/VerifyEmail",
+      invalidateQueryKey: "userProfile",
+    });
 
   const onSubmit = useCallback(
     async ({ code }: { code: string }) => {
       const res = await verifyEmai(code);
-      console.log(res);
 
       if (res) {
-        mutation.mutate(email);
+        mutation.mutate({email});
         toast({
           description: "ایمیل شما با موفقیت تایید شد",
           variant: "success",

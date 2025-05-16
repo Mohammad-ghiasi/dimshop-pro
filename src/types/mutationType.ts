@@ -5,6 +5,6 @@ export interface UseApiMutationProps {
   url: string;
   onSuccessMessage?: string;
   onErrorMessage?: string;
-  invalidateQueryKey?: string[];
+  invalidateQueryKey?: string;
   config?: Record<string, any>;
 }

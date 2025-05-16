@@ -11,7 +11,9 @@ import api from "@/lib/api";
 import DrawerDialogDemo from "./ResponDialog";
 import { persianNumbers } from "@/lib/parsianNumber";
 import { danaLight } from "@/app/styles/fonts";
-import { SquarePen, Trash2 } from "lucide-react";
+import { MapPinPlusInside, Trash2 } from "lucide-react";
+// import { LocationEdit } from "lucide-react";
+
 import AddressActionsMenu from "./AddressActionsMenu";
 
 export default function AddressItem({ item }: { item: singleAddress }) {
@@ -83,7 +85,8 @@ export default function AddressItem({ item }: { item: singleAddress }) {
         <div className="flex items-center gap-x-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
           <DrawerDialogDemo editMode={true} userAddress={item}>
             <span>
-              <SquarePen
+            {/* <LocationEdit /> */}
+              <MapPinPlusInside
                 size={19}
                 className="text-customgreen transition-all hover:scale-105 cursor-pointer"
               />

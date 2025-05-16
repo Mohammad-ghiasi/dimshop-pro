@@ -4,7 +4,7 @@ import {
   MenubarTrigger,
   MenubarContent,
 } from "@/components/ui/menubar";
-import { SquarePen, Trash2, EllipsisVertical } from "lucide-react";
+import { Trash2, EllipsisVertical, MapPinPlusInside } from "lucide-react";
 import DrawerDialogDemo from "./ResponDialog";
 import { singleAddress } from "@/types/useProfile";
 
@@ -26,7 +26,7 @@ export default function AddressActionsMenu({
           <DrawerDialogDemo editMode={true} userAddress={item}>
             <div className="flex w-full justify-end space-x-2 p-2 text-sm cursor-pointer">
               <span className="text-customgreen">ویرایش آدرس</span>
-              <SquarePen
+              <MapPinPlusInside
                 size={17}
                 className="text-customgreen transition-all hover:scale-105"
               />

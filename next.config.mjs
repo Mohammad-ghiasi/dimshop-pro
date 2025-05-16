@@ -1,9 +1,11 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // images: {
-  //   formats: ["image/webp", "image/avif"],
-  //   domains: [],  // دامنه‌های معتبر
-  // },
+  images: {
+    domains: [
+      'aiobrhqkxhmnpzhljono.supabase.co', // 👈 دامنه supabase
+      // بقیه دامنه‌هایی که استفاده می‌کنی هم اینجا می‌تونی بذاری
+    ],
+  },
 
   // swcMinify: true, // Minify JS
 

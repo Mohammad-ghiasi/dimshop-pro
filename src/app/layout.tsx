@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import  ThemeProvider  from "@/providers/theme-provider";
 import  Toaster  from "@/components/ui/toaster";
-import { dana } from "./styles/fonts";
+import { danaLight } from "./styles/fonts";
 import ReactQueryProvider from "@/providers/reactquery-provider";
 
 export const metadata: Metadata = {
@@ -17,7 +17,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="fa" dir="rtl" suppressHydrationWarning>
-      <body className={dana.className}>
+      <body className={danaLight.className}>
         <ReactQueryProvider>
           <ThemeProvider
             attribute="class"

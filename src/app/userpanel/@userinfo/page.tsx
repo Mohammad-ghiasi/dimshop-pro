@@ -168,47 +168,19 @@ export default function UserProfilePage() {
     }
   }, [data, reset]);
 
-  const muatate = useApiMutation({
+  // update user muatation
+  const mutation = useApiMutation({
     method: "post",
     url: "/Account/EditProfile",
-    invalidateQueryKey: ["userProfile"],
-
-  })
-
-  // update user muatation
-  const mutation = useMutation({
-    mutationFn: async (updatedData: UserProfileUpdata) => {
-      const res = await api.post("/Account/EditProfile", updatedData, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
-      return res.data;
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["userProfile"] });
-      toast({
-        description: "اطلاعات با موفقیت ذخیره شد",
-        variant: "success",
-      });
-    },
-    onError: (error) => {
-      console.error("خطا در ذخیره اطلاعات:", error);
-      toast({
-        description: "خطایی در ذخیره اطلاعت پیش اومده",
-        variant: "destructive",
-      });
-    },
+    invalidateQueryKey: "userProfile",
   });
 
   // for, submition
   const onSubmit = async (formData: UserProfileUpdata) => {
     if (!isDirty) return; // هیچ toastی نمایش نده
-    // mutation.mutate(formData);
-    muatate.mutate(formData)
+    mutation.mutate(formData);
+    // muatate.mutate(formData)
   };
-  
 
   if (!token) {
     return null;
@@ -216,7 +188,9 @@ export default function UserProfilePage() {
 
   return (
     <div className="md:bg-card md:shadow-sm rounded-md pb-6 md:py-6 md:px-4">
-      <HeaderTitle className="mb-10">جزئیات حساب کاربری</HeaderTitle>
+      <HeaderTitle className="mb-10 after:h-[2px]">
+        جزئیات حساب کاربری
+      </HeaderTitle>
       {isLoading ? (
         <UserInfoSkeleton />
       ) : (
@@ -230,6 +204,7 @@ export default function UserProfilePage() {
             )}
 
             <div className="flex flex-col items-center gap-4">
+             
               <div className="relative w-44 h-44">
                 <div
                   className="w-full h-full rounded-full bg-accent bg-center bg-cover border"
@@ -302,7 +277,7 @@ export default function UserProfilePage() {
                       تأیید شده
                     </Badge>
                   ) : (
-                    <ConfirmEmail email={data?.user.email}/>
+                    <ConfirmEmail email={data?.user.email} />
                   )}
 
                   <Input
@@ -313,8 +288,19 @@ export default function UserProfilePage() {
                     errorMessage={errors.email?.message}
                     placeholder="مثلا mohammad@gmail.com"
                   />
-                  
-                  {data?.user.email && !data?.user.emailConfirmed && (<p className="text-[8px] md:text-[10px] mt-[-10px] text-warning flex items-center gap-x-1"> <span><CircleAlert size={14}/></span><span>برای تایید ایمیل روی دکمه <span className="underline">تایید نشده</span> کلیک کنید</span></p>)}
+
+                  {data?.user.email && !data?.user.emailConfirmed && (
+                    <p className="text-[8px] md:text-[10px] mt-[-10px] text-warning flex items-center gap-x-1">
+                      {" "}
+                      <span>
+                        <CircleAlert size={14} />
+                      </span>
+                      <span>
+                        برای تایید ایمیل روی دکمه{" "}
+                        <span className="underline">تایید نشده</span> کلیک کنید
+                      </span>
+                    </p>
+                  )}
                 </div>
               </div>
 

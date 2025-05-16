@@ -41,7 +41,7 @@ export default function Page() {
   }
 
   return (
-    <div className="md:bg-card shadow-sm rounded-md py-6 md:px-4">
+    <div className="md:bg-card shadow-sm rounded-md py-6 mt-5 lg:mt-0 md:px-4 lg:max-w-2xl overflow-x-hidden">
     <HeaderTitle className="mb-10 after:h-[2px]">آدرس های من</HeaderTitle>
   
     {isLoading ? (
@@ -56,7 +56,7 @@ export default function Page() {
             <span>آدرسی یافت نشد</span>
           </p>
         ) : (
-          <div className="space-y-4 md:my-0 h-[300px] md:h-[388px] shadow-inner overflow-y-auto">
+          <div className="space-y-4 md:my-0 h-[300px] md:h-[384px] shadow-inner overflow-y-auto overflow-x-hidden">
             {(data?.address as singleAddress[])?.map((item: singleAddress) => (
               <AddressItem key={item.id} item={item} />
             ))}
