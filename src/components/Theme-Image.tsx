@@ -16,13 +16,14 @@ export default function ThemeImage({ w, h, className, ...rest }: ThemeImageProps
 
   return (
     <Image
-      src="/images/dark-logo.webp"
-      alt="logo"
+      src={imageSrc}
+     alt="Dimshop logo"
       width={w}
       height={h}
       className={className}
       {...rest}
-      priority
+      loading="eager"
+      priority 
     />
   );
 }
