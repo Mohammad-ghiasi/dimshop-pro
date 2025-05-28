@@ -1,3 +1,4 @@
+"use client"
 import BodyPrvider from "@/components/ui-providers/BodyProvider";
 import Link from "next/link";
 

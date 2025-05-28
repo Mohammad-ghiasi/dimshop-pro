@@ -1,3 +1,4 @@
+"use client"
 import CryptoJS from "crypto-js";
 
 // کلید رمزنگاری (باید یک کلید امن باشد، و در برنامه شما ثابت بماند)

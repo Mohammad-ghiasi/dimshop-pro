@@ -8,7 +8,7 @@ const agent = new https.Agent({
 const api = axios.create({
   baseURL: "https://localhost:7260",
   timeout: 10000,
-  httpsAgent: agent,
+  httpsAgent: agent, // ******
   // headers: {
   //   "Content-Type": "application/json",
   //   Authorization: `Bearer ${Cookies.get("auth-token") || ""}`,

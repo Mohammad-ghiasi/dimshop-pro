@@ -1,3 +1,4 @@
+"use client"
 import { persianNumbers } from "@/lib/parsianNumber";
 import React from "react";
 import { Button } from "../ui/button";
