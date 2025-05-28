@@ -2,7 +2,6 @@
 
 import { useTheme } from "next-themes";
 import Image, { ImageProps } from "next/image";
-import { useEffect, useState } from "react";
 
 interface ThemeImageProps extends Omit<ImageProps, "src" | "alt"> {
   w: number;
@@ -11,28 +10,19 @@ interface ThemeImageProps extends Omit<ImageProps, "src" | "alt"> {
 }
 
 export default function ThemeImage({ w, h, className, ...rest }: ThemeImageProps) {
-  const [mounted, setMounted] = useState(false);
   const { theme } = useTheme();
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  if (!mounted) return null;
 
   const imageSrc = theme === "dark" ? "/images/dark-logo.webp" : "/images/light-logo.webp";
 
   return (
     <Image
-      src={imageSrc}
+      src="/images/dark-logo.webp"
       alt="logo"
       width={w}
       height={h}
       className={className}
       {...rest}
-      loading="eager"
-      priority 
-      fetchPriority="high"
+      priority
     />
   );
 }

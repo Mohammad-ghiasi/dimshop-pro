@@ -27,6 +27,7 @@ import { useRouter } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
 import { UserProfile } from "@/types/useProfile";
 import api from "@/lib/api";
+import { useApiQuery } from "@/hooks/useQuery";
 
 export default function Menu() {
   const router = useRouter();
@@ -39,21 +40,10 @@ export default function Menu() {
     const tokenData = getSimpleCookie("authToken");
     setToken(tokenData);
   }, []);
-
-  const { data } = useQuery<UserProfile, Error>({
-    queryKey: ["userProfile"],
-    queryFn: async () => {
-      const res = await api.get("/Account/GetProfile", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      // console.log(res.data.user);
-
-      return res.data;
-    },
-    enabled: !!token,
-  });
+    const { data } = useApiQuery<UserProfile>({
+      queryKey: ["userProfile"],
+      url: "/Account/GetProfile",
+    });
 
   useEffect(() => {
     const token = getSimpleCookie("authToken");
@@ -62,7 +52,7 @@ export default function Menu() {
     admin === "Admin" ? setAdmin(true) : null;
   }, []);
 
-const handleLogout = () => {
+  const handleLogout = () => {
     eraseCookie("authToken");
     eraseCookie("userName");
     eraseCookie("userPhone");
@@ -124,10 +114,13 @@ const handleLogout = () => {
               <MenubarSeparator />
               {admin && (
                 <MenubarItem>
-                  <div className="flex w-full justify-end space-x-3">
+                  <Link
+                    href="/adminpanel"
+                    className="flex w-full justify-end space-x-3"
+                  >
                     <span>پنل ادمین</span>
                     <span>{<ShieldUser className="h-5 w-5" />}</span>
-                  </div>
+                  </Link>
                 </MenubarItem>
               )}
               <MenubarItem>
@@ -155,12 +148,6 @@ const handleLogout = () => {
                 <div className="flex w-full justify-end space-x-3">
                   <span>تیکت های من</span>
                   <span>{<MessageCircle className="h-5 w-5" />}</span>
-                </div>
-              </MenubarItem>
-              <MenubarItem>
-                <div className="flex w-full justify-end space-x-3">
-                  <span>جزئیات حساب </span>
-                  <span>{<UserRound className="h-5 w-5" />}</span>
                 </div>
               </MenubarItem>
 

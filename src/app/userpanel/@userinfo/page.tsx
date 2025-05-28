@@ -1,21 +1,14 @@
 "use client";
 
 import { useForm } from "react-hook-form";
-import {
-  QueryClient,
-  useMutation,
-  useQuery,
-  useQueryClient,
-} from "@tanstack/react-query";
 import { useEffect, useRef, useState } from "react";
-import api from "@/lib/api";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import HeaderTitle from "@/components/headerTitle/HeaderTitle";
 import { Badge } from "@/components/ui/badge";
 import UserInfoSkeleton from "@/components/skeleton/UserInfoSkeleton";
 import { Label } from "@/components/ui/label";
-import { CircleAlert, Plus } from "lucide-react";
+import { CircleAlert, Plus, ShieldUser } from "lucide-react";
 import {
   UserProfile,
   UserProfileUpdata,
@@ -23,22 +16,21 @@ import {
 } from "@/types/useProfile";
 import { useToast } from "@/hooks/use-toast";
 import { supabaseClient } from "@/supabase/supabaseClient";
-import { useAuth } from "@/components/AuthProvider";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { userInfoSchema } from "@/yup/userInfoResolver";
 import ConfirmEmail from "./ConfirmEmail";
 import { useApiMutation } from "@/hooks/useMutation";
+import { getCookie } from "@/lib/cookies";
+import Link from "next/link";
+import { useApiQuery } from "@/hooks/useQuery";
 
 export default function UserProfilePage() {
-  // get token
-  const { token } = useAuth();
   // stats
   const [uploading, setUploading] = useState<boolean>(false);
+  const [admin, setAdmin] = useState<boolean>(false);
   const [imgUrl, setImgUrl] = useState<string | null>(null);
   // image input
   const fileInputRef = useRef<HTMLInputElement | null>(null);
-  //query client
-  const queryClient: QueryClient = useQueryClient();
   // toast
   const { toast } = useToast();
   // supabase
@@ -141,18 +133,9 @@ export default function UserProfilePage() {
   };
 
   // get user query
-  const { data, isLoading } = useQuery<UserProfile, Error>({
+  const { data, isLoading } = useApiQuery<UserProfile>({
     queryKey: ["userProfile"],
-    queryFn: async () => {
-      const res = await api.get("/Account/GetProfile", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
-      return res.data;
-    },
-    enabled: !!token,
+    url: "/Account/GetProfile",
   });
 
   // input defaulr vaule
@@ -167,6 +150,10 @@ export default function UserProfilePage() {
       setImgUrl(data?.user.imagePath || "");
     }
   }, [data, reset]);
+  useEffect(() => {
+    const admin = getCookie("userRole");
+    admin === "Admin" ? setAdmin(true) : null;
+  }, []);
 
   // update user muatation
   const mutation = useApiMutation({
@@ -181,10 +168,6 @@ export default function UserProfilePage() {
     mutation.mutate(formData);
     // muatate.mutate(formData)
   };
-
-  if (!token) {
-    return null;
-  }
 
   return (
     <div className="md:bg-card md:shadow-sm rounded-md pb-6 md:py-6 md:px-4">
@@ -204,7 +187,6 @@ export default function UserProfilePage() {
             )}
 
             <div className="flex flex-col items-center gap-4">
-             
               <div className="relative w-44 h-44">
                 <div
                   className="w-full h-full rounded-full bg-accent bg-center bg-cover border"
@@ -222,6 +204,19 @@ export default function UserProfilePage() {
                 >
                   <Plus className="w-3 h-3 text-background" />
                 </Button>
+                {admin && (
+                  <Link
+                    href="/adminpanel"
+                    type="button"
+                    className="absolute left-16  bottom-[-15px] w-[30px]   rounded-full shadow bg-warning flex justify-center"
+                    // disabled={uploading}
+                  >
+                    <ShieldUser
+                      size={26}
+                      className="w-24 h-w-24  text-background "
+                    />
+                  </Link>
+                )}
               </div>
 
               <input

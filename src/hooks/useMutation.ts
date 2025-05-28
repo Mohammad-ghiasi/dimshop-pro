@@ -1,8 +1,8 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useToast } from "@/hooks/use-toast";
 import api from "@/lib/api";
-import { useAuth } from "@/components/AuthProvider";
 import { UseApiMutationProps } from "@/types/mutationType";
+import { getSimpleCookie } from "@/lib/cookies";
 
 
 
@@ -15,8 +15,9 @@ export function useApiMutation<TData = any, TVariables = any>({
   config,
 }: UseApiMutationProps) {
   const { toast } = useToast();
-  const { token } = useAuth();
+  const token = getSimpleCookie("authToken");
   const queryClient = useQueryClient();
+  
 
   return useMutation<TData, any, TVariables>({
     mutationFn: async (variables: TVariables) => {

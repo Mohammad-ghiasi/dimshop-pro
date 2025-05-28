@@ -1,32 +1,21 @@
 "use client";
-import { useAuth } from "@/components/AuthProvider";
 import ThemeImage from "@/components/Theme-Image";
 import ThemeToggleButton from "@/components/Toggle-mode";
-import api from "@/lib/api";
 import { UserProfile } from "@/types/useProfile";
-import { useQuery } from "@tanstack/react-query";
 import { ShoppingCart } from "lucide-react";
 import Link from "next/link";
 import React from "react";
 import { danaBold } from "../styles/fonts";
 import SheetNav from "@/components/navigation/SheetNav";
+import { useApiQuery } from "@/hooks/useQuery";
 
 
 export default function Page() {
-  const { token } = useAuth();
-  const { data } = useQuery<UserProfile, Error>({
-    queryKey: ["userProfile"],
-    queryFn: async () => {
-      const res = await api.get("/Account/GetProfile", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
 
-      return res.data;
-    },
-    enabled: !!token,
-  });
+    const { data } = useApiQuery<UserProfile>({
+      queryKey: ["userProfile"],
+      url: "/Account/GetProfile",
+    });
   return (
     <div className="relative bg-card px-6 py-5 shadow-sm">
       {/* shadow div */}

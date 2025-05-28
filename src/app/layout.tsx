@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import "./globals.css";
+import "@/app/globals.css";
 import  ThemeProvider  from "@/providers/theme-provider";
 import  Toaster  from "@/components/ui/toaster";
 import { danaLight } from "./styles/fonts";

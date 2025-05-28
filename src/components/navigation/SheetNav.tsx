@@ -81,7 +81,7 @@ export default function SheetNav({ data }: { data?: UserProfile }) {
             </div>
           </div>
         </SheetHeader>
-        <div className="flex flex-col px-2 mt-6 h-[92%]">
+        <div className="flex flex-col px-2 mt-6 h-[90%]">
           <div className="">
             <div className="bg-[#0DA5E9] rounded-md flex flex-col justify-end text-sm py-3">
               <div className="text-center">

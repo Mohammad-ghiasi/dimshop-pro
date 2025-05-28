@@ -11,7 +11,6 @@ import {
 } from "@/components/ui/input-otp";
 import { useToast } from "@/hooks/use-toast";
 import { useApiMutation } from "@/hooks/useMutation";
-import api from "@/lib/api";
 import { verifyEmai } from "@/lib/emailSender";
 import { otpNumberType } from "@/types/loginSignup";
 import { otpSchema } from "@/yup/loginSigupReolver";
@@ -19,7 +18,6 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { DialogClose } from "@radix-ui/react-dialog";
 import {
   QueryClient,
-  useMutation,
   useQueryClient,
 } from "@tanstack/react-query";
 import { useCallback, useEffect } from "react";
@@ -27,8 +25,6 @@ import { useForm } from "react-hook-form";
 
 export default function ConfirmEmailOTP({ email }: { email: string }) {
   const { toast } = useToast();
-  const { token } = useAuth();
-  const queryClient: QueryClient = useQueryClient();
   const {
     register,
     setValue,
@@ -42,18 +38,18 @@ export default function ConfirmEmailOTP({ email }: { email: string }) {
   });
   const code = watch("code");
 
-    const mutation = useApiMutation({
-      method: "put",
-      url: "/Account/VerifyEmail",
-      invalidateQueryKey: "userProfile",
-    });
+  const mutation = useApiMutation({
+    method: "put",
+    url: "/Account/VerifyEmail",
+    invalidateQueryKey: "userProfile",
+  });
 
   const onSubmit = useCallback(
     async ({ code }: { code: string }) => {
       const res = await verifyEmai(code);
 
       if (res) {
-        mutation.mutate({email});
+        mutation.mutate({ email });
         toast({
           description: "ایمیل شما با موفقیت تایید شد",
           variant: "success",
@@ -66,7 +62,7 @@ export default function ConfirmEmailOTP({ email }: { email: string }) {
       }
       // console.log(res);
     },
-    [ email, mutation, toast]
+    [code]
   );
 
   useEffect(() => {
@@ -74,12 +70,12 @@ export default function ConfirmEmailOTP({ email }: { email: string }) {
       description: "کد تایید به ایمیل شما ارسال شد",
       variant: "info",
     });
-  }, [toast]);
+  }, []);
   useEffect(() => {
     if (/^\d{4}$/.test(code)) {
       onSubmit({ code });
     }
-  }, [code, onSubmit, toast]);
+  }, [code]);
   return (
     <div className="flex flex-col mt-6 w-full text-end p-0">
       <div className="">

@@ -17,26 +17,22 @@ html {
 
 
 
-/* width */
+/* اسکرولبار عمومی برای محورهای X و Y */
 ::-webkit-scrollbar {
-  width: 4px;
-  border-radius: 50%;
+  height: 4px; /* ارتفاع اسکرولبار افقی */
+  width: 4px;  /* عرض اسکرولبار عمودی */
 }
 
-/* Track */
+/* مسیر اسکرولبار */
 ::-webkit-scrollbar-track {
   background: inherit;
+  border-radius: 10px;
 }
 
-/* Handle */
+/* دسته اسکرولبار */
 ::-webkit-scrollbar-thumb {
   background: #88888833;
-  border-radius: 6px;
-}
-
-/* Handle on hover */
-::-webkit-scrollbar-thumb:hover {
-  background: #555;
+  border-radius: 10px;
 }
 
 @media (prefers-color-scheme: dark) {
