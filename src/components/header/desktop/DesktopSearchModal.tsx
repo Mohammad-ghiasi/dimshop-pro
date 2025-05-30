@@ -1,12 +1,10 @@
-import dynamic from "next/dynamic";
 import {
   Dialog, DialogClose, DialogContent, DialogHeader, DialogTitle, DialogTrigger,
 } from "@/components/ui/dialog";
 import SerchModalContent from "./SerchModalContent";
-
-const DesktopSearchBar = dynamic(() => import("./DesktopSearchBar"), { ssr: false });
-const ThemeImage = dynamic(() => import("@/components/Theme-Image"), { ssr: false });
-const XIcon = dynamic(() => import("lucide-react").then(mod => mod.X), { ssr: false });
+import SsrThemeImage from "@/components/Ssr-Theme-image";
+import { XIcon } from "lucide-react";
+import DesktopSearchBar from "./DesktopSearchBar";
 
 export default function DesktopSearchBarModall() {
   return (
@@ -22,7 +20,7 @@ export default function DesktopSearchBarModall() {
               <div className="flex items-center gap-x-2">
                 در{" "}
                 <div className="mt-[-4px]">
-                  <ThemeImage w={80} h={50} />
+                  <SsrThemeImage w={80} h={50} />
                 </div>{" "}
                 جستجو کنید.
               </div>

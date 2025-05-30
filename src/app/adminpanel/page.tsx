@@ -1,4 +1,5 @@
 "use client"
+import ThemeToggleButton from "@/components/Toggle-mode";
 import BodyPrvider from "@/components/ui-providers/BodyProvider";
 import Link from "next/link";
 
@@ -6,6 +7,7 @@ export default function AdminPanel() {
   return (
     <BodyPrvider>
       <p>admin Page</p>
+      <ThemeToggleButton />
       <div className="">
         <Link href="adminpanel/manageuser">Manage users</Link>
       </div>

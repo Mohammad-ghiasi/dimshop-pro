@@ -23,6 +23,9 @@ import { useApiMutation } from "@/hooks/useMutation";
 import { getCookie } from "@/lib/cookies";
 import Link from "next/link";
 import { useApiQuery } from "@/hooks/useQuery";
+import { deleteImge } from "@/supabase/deleteFile";
+import { uploadImageFile } from "@/supabase/uploadfile";
+import { cashDeleter } from "@/utils/serverActions/cashDeleter";
 
 export default function UserProfilePage() {
   // stats
@@ -81,31 +84,18 @@ export default function UserProfilePage() {
 
     try {
       setUploading(true);
-
-      if (imagePath) {
-        const imagePart = imagePath.split("/images/")[1];
-        if (!imagePart) {
-          throw new Error("مسیر تصویر قبلی معتبر نیست.");
-        }
-        const { error } = await supabase.storage
-          .from("filesavebuket")
-          .remove([`images/${imagePart}`]);
-
-        if (error) {
-          console.error("خطا در حذف فایل قبلی:", error);
-          toast({
-            description: "مشکلی در حذف عکس قبلی پیش اومد",
-            variant: "destructive",
-          });
-        }
+      // delete cutent image if exist
+      try {
+        deleteImge(imagePath);
+      } catch (error) {
+        toast({
+          description: "مشکلی در حذف عکس قبلی پیش اومد",
+          variant: "destructive",
+        });
       }
 
-      const { data, error } = await supabase.storage
-        .from("filesavebuket") // اسم باکت خودت
-        .upload(`images/${file.name}`, file, {
-          cacheControl: "3600",
-          upsert: true, // اگر فایل وجود داشت جایگزین کن
-        });
+      // uplad image
+      const { data, error } = await uploadImageFile(file);
 
       if (error) throw error;
 
@@ -166,6 +156,8 @@ export default function UserProfilePage() {
   const onSubmit = async (formData: UserProfileUpdata) => {
     if (!isDirty) return; // هیچ toastی نمایش نده
     mutation.mutate(formData);
+    console.log("valid click");
+    await cashDeleter("/");
     // muatate.mutate(formData)
   };
 

@@ -1,5 +1,5 @@
 import { Search } from 'lucide-react'
-import ThemeImage from '../../Theme-Image'
+import SsrThemeImage from '@/components/Ssr-Theme-image'
 
 export default function MobileSearchBar() {
   return (
@@ -9,7 +9,7 @@ export default function MobileSearchBar() {
     <Search size={23}  />
     </div>
 
-    <ThemeImage
+    <SsrThemeImage
       w={70}
       h={50}
       className="absolute right-[126px] top-1/2 mt-[-1px] -translate-y-1/2"

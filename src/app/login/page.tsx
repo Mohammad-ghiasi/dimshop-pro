@@ -76,7 +76,8 @@ export default function LoginPage() {
         eraseCookie("hashCode");
         eraseCookie("code");
   
-        router.push("/");
+        // router.push("/");
+          window.location.href = "/";
       } else {
         toast({
           description: "کد وارد شده اشتباه است",

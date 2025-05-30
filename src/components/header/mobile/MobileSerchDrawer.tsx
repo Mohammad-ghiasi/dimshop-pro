@@ -5,9 +5,9 @@ import {
   DrawerHeader,
   DrawerTrigger,
 } from "@/components/ui/drawer";
-import ThemeImage from "@/components/Theme-Image";
 import { X } from "lucide-react";
 import dynamic from "next/dynamic";
+import SsrThemeImage from "@/components/Ssr-Theme-image";
 
 const MobileSearchBar = dynamic(() => import("./MobileSearchBar"), { ssr: true });
 export default function MobileSerchDrawer() {
@@ -20,7 +20,7 @@ export default function MobileSerchDrawer() {
         <DrawerHeader>
           <div className="flex items-center justify-between mt-3 my-5">
             <div className="flex items-center gap-x-2 text-sm">
-              در {<ThemeImage w={80} h={50} className="mt-[-3px]" />} جستوجو
+              در {<SsrThemeImage w={50} h={50} className="mt-[-3px]" />} جستوجو
               کنید.{" "}
             </div>
             <DrawerClose asChild className="cursor-pointer">
