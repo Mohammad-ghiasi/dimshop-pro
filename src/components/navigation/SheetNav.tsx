@@ -50,16 +50,13 @@ export default function SheetNav({ data }: { data?: UserProfile }) {
   //   enabled: !!token,
   // });
   const handleLogout = () => {
+    
     eraseCookie("authToken");
     eraseCookie("userName");
     eraseCookie("userPhone");
+    eraseCookie("phoneNumber");
     eraseCookie("userRole");
-    router.push("/");
-
-    setTimeout(
-      () => window.location.reload(), // Refresh the page
-      300
-    );
+    window.location.href = "/";
   };
   return (
     <Sheet>

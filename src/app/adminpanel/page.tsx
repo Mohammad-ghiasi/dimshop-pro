@@ -12,13 +12,16 @@ export default function AdminPanel() {
         <Link href="adminpanel/manageuser">Manage users</Link>
       </div>
       <div className="">
-        <Link href="adminpanel/manageuser">Manage category</Link>
+        <Link href="adminpanel/managecategory">Manage category</Link>
       </div>
       <div className="">
         <Link href="adminpanel/manageuser">Manage products</Link>
       </div>
       <div className="">
         <Link href="adminpanel/manageuser">Manage orders</Link>
+      </div>
+      <div className="">
+        <Link href="adminpanel/managebanner">Manage banner</Link>
       </div>
     </BodyPrvider>
   );

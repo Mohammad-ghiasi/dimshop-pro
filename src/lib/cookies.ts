@@ -1,22 +1,6 @@
-// "use client";
-import CryptoJS from "crypto-js";
+// "use client"
 
-// کلید رمزنگاری (باید یک کلید امن باشد، و در برنامه شما ثابت بماند)
-const secretKey = "mySecretKey123"; // توصیه می‌شود که کلید را از یک محیط امن مثل متغیرهای محیطی بگیرید
-
-// رمزنگاری داده‌ها
-export function encryptData(value: string): string {
-  return CryptoJS.AES.encrypt(value, secretKey).toString();
-}
-
-// رمزگشایی داده‌ها
-export function decryptData(value?: string): string {
-  if (!value) {
-    return "";
-  }
-  const bytes = CryptoJS.AES.decrypt(value, secretKey);
-  return bytes.toString(CryptoJS.enc.Utf8);
-}
+import { decryptData, encryptData } from "./crypto";
 
 export function setCookie(name: string, value: string, days: number): void {
   const d = new Date();
@@ -48,6 +32,7 @@ export function setSimpleCookie(name: string, value: any, days: number) {
   )}; expires=${expires}; path=/`;
 }
 export function getSimpleCookie(name: string): string | null {
+   if (typeof document === "undefined") return null;
   const match = document.cookie.match(new RegExp("(^| )" + name + "=([^;]+)"));
   return match ? decodeURIComponent(match[2]) : null;
 }

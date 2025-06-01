@@ -30,7 +30,7 @@ export default function UserPanelNavigationBar() {
   const router = useRouter();
   // get token
   const { token } = useAuth();
-  const { data, isLoading } = useQuery<UserProfile, Error>({
+  const { data } = useQuery<UserProfile, Error>({
     queryKey: ["userProfile"],
     queryFn: async () => {
       const res = await api.get("/Account/GetProfile", {
@@ -47,6 +47,7 @@ export default function UserPanelNavigationBar() {
     eraseCookie("authToken");
     eraseCookie("userName");
     eraseCookie("userPhone");
+    eraseCookie("phoneNumber");
     eraseCookie("userRole");
     router.push("/");
 

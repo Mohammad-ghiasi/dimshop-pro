@@ -8,6 +8,7 @@ export default function Logout() {
     eraseCookie("authToken");
     eraseCookie("userName");
     eraseCookie("userPhone");
+    eraseCookie("phoneNumber");
     eraseCookie("userRole");
     window.location.href = "/";
   };

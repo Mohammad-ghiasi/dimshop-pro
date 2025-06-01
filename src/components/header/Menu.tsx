@@ -14,19 +14,19 @@ import {
   ShieldUser,
   ShoppingCart,
 } from "lucide-react";
-import { decryptData } from "@/lib/cookies";
 import Link from "next/link";
 import { UserProfile } from "@/types/useProfile";
 import { cookies } from "next/headers";
 import api from "@/lib/api";
 import Logout from "../Logout";
 import { Avatar, AvatarImage } from "@radix-ui/react-avatar";
+import { decryptData } from "@/lib/crypto";
 
 export default async function Menu() {
   const token = cookies().get("authToken")?.value;
   const haseRolerole = cookies().get("userRole")?.value;
   const decodedRole = decryptData(haseRolerole).replace(/^"|"$/g, "");
-  const isadmin: boolean = decodedRole === "Admin" ? true : false;
+  const isadmin: boolean = (decodedRole === "1" || decodedRole === "2" )? true : decodedRole === "3" ? false : false;
 
   let data;
   try {
@@ -35,7 +35,13 @@ export default async function Menu() {
     });
   } catch (error) {
     console.error("Error fetching profile:", error);
-    return null; // یا یک fallback ساده
+    return (
+      <Avatar className="h-8 w-8 md:h-10 md:w-10 shadow-md cursor-pointer rounded-full overflow-hidden">
+        <Link href="/signup">
+          <AvatarFallback className="pt-2">US</AvatarFallback>
+        </Link>
+      </Avatar>
+    ); // یا یک fallback ساده
   }
 
   return (

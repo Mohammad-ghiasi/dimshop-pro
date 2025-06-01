@@ -1,6 +1,5 @@
 "use client";
 import HeaderTitle from "@/components/headerTitle/HeaderTitle";
-import AddressesSkeleton from "@/components/skeleton/AddressesSkeleton";
 import { Button } from "@/components/ui/button";
 import { useApiQuery } from "@/hooks/useQuery";
 import { singleAddress, UserProfile } from "@/types/useProfile";
@@ -26,10 +25,6 @@ export default function Page() {
   return (
     <div className="md:bg-card shadow-sm rounded-md py-6 mt-5 lg:mt-0 md:px-4 lg:max-w-2xl overflow-x-hidden">
       <HeaderTitle className="mb-10 after:h-[2px]">آدرس های من</HeaderTitle>
-
-      {isLoading ? (
-        <AddressesSkeleton />
-      ) : (
         <>
           {!(data?.address as any[])?.length ? (
             <p className="flex items-center justify-center gap-x-2 text-muted-foreground text-sm py-14">
@@ -62,7 +57,6 @@ export default function Page() {
             </DrawerDialogDemo>
           </div>
         </>
-      )}
     </div>
   );
 }

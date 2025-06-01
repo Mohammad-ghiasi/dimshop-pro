@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
-import { decryptData } from "./lib/cookies";
+import { decryptData } from "./lib/crypto";
 
 export function middleware(request: NextRequest) {
   const token = request.cookies.get("authToken");
@@ -18,11 +18,37 @@ export function middleware(request: NextRequest) {
 
     try {
       const decodeRole = decryptData(role);
+      console.log("rol", decodeRole);
+      
       const fixDecodeRole = decodeRole.replace(/^"|"$/g, "");
+      console.log("fix", fixDecodeRole);
+      console.log("fixType", typeof(fixDecodeRole));
+      
 
       console.log("Decrypted role:", decodeRole);
 
-      if (fixDecodeRole === "Admin") {
+      if (fixDecodeRole === "1" || fixDecodeRole === "2") {
+        console.log("Admin access granted");
+        return NextResponse.next();
+      } else {
+        console.log("Access denied. Role:", fixDecodeRole);
+        return NextResponse.redirect(signupUrl);
+      }
+    } catch (error) {
+      console.error("Decryption failed:", error);
+      return NextResponse.redirect(signupUrl);
+    }
+  }
+
+  if (role && path === "/adminpanel/manageuser") {
+    console.log("__________________________");
+    
+      console.log("Request to /adminpanel/mamgeUsers");
+      try {
+      const decodeRole = decryptData(role);
+      const fixDecodeRole = decodeRole.replace(/^"|"$/g, "");
+
+      if (fixDecodeRole === "1") {
         console.log("Admin access granted");
         return NextResponse.next();
       } else {
@@ -53,5 +79,5 @@ export function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/userpanel", "/ticket", "/chart", "/adminpanel", "/login"],
+  matcher: ["/userpanel", "/ticket", "/chart", "/adminpanel", "/login", "/adminpanel/manageuser"],
 };

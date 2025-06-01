@@ -67,16 +67,14 @@ export default function LoginPage() {
         code,
         confirmCode,
       });
+      console.log(res);
+      
   
       if (res.data !== false) {
         setSimpleCookie("authToken", res.data.token, 7);
         setCookie("userPhone", res.data.phoneNumber, 7);
         setCookie("userRole", res.data.role, 7);
-        eraseCookie("phoneNumber");
-        eraseCookie("hashCode");
         eraseCookie("code");
-  
-        // router.push("/");
           window.location.href = "/";
       } else {
         toast({

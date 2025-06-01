@@ -29,10 +29,11 @@ export default function SignupPage() {
       const res = await api.post("/Account/PhoneNumber", {
         phoneNumber: data.phonenumber,
       });
+      console.log(res);
+      
 
       setCookie("phoneNumber", data.phonenumber, 1);
-      setSimpleCookie("hashCode", res.data.hashCode, 1);
-      //********
+      // //********
       setSimpleCookie("code", res.data.code, 1);
       // ********
       router.push("/login");

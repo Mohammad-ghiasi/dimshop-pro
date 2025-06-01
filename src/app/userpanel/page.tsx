@@ -9,13 +9,11 @@ import { danaBold } from "../styles/fonts";
 import SheetNav from "@/components/navigation/SheetNav";
 import { useApiQuery } from "@/hooks/useQuery";
 
-
 export default function Page() {
-
-    const { data } = useApiQuery<UserProfile>({
-      queryKey: ["userProfile"],
-      url: "/Account/GetProfile",
-    });
+  const { data } = useApiQuery<UserProfile>({
+    queryKey: ["userProfile"],
+    url: "/Account/GetProfile",
+  });
   return (
     <div className="relative bg-card px-6 py-5 shadow-sm">
       {/* shadow div */}
@@ -23,7 +21,7 @@ export default function Page() {
       {/* لوگو */}
       <div className="flex items-center justify-between">
         <div className="block lg:hidden">
-         <SheetNav data={data}/>
+          <SheetNav data={data} />
         </div>
         <div className=" [&_path]:fill-foreground cursor-pointer flex-shrink-0">
           <Link href="/" className=" flex items-center  mt-[-3px]">
@@ -32,7 +30,6 @@ export default function Page() {
         </div>
         <div className="hidden lg:block">
           <p className="text-sm text-muted-foreground flex items-center gap-x-1">
-            {/* {data?.user.firstName} عزیز به پنل کاربری خودت در دیمشاپ خوش اومدی */}
             <span>
               {" "}
               {data?.user.firstName} عزیز به پنل کاربری خودت در{" "}
@@ -47,7 +44,7 @@ export default function Page() {
         {/* منوی ابزار */}
         <div>
           <div className="flex items-center gap-1 sm:gap-2 md:gap-3 lg:gap-4 flex-shrink-0">
-            <ShoppingCart  />
+            <ShoppingCart />
 
             <div className="hidden lg:block">
               <ThemeToggleButton />

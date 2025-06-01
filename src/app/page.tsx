@@ -1,5 +1,3 @@
-import BaseMenu from "@/components/header/BaseMenu";
-import FullMenu from "@/components/header/FullMenu";
 import FullMenuSSR from "@/components/header/FullMenuSSR";
 import BodyPrvider from "@/components/ui-providers/BodyProvider";
 import UserServerTest from "@/components/UserServerTest";
