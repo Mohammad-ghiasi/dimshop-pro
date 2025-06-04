@@ -15,7 +15,7 @@ export default function AdminPanel() {
         <Link href="adminpanel/managecategory">Manage category</Link>
       </div>
       <div className="">
-        <Link href="adminpanel/manageuser">Manage products</Link>
+        <Link href="adminpanel/manageproduct">Manage products</Link>
       </div>
       <div className="">
         <Link href="adminpanel/manageuser">Manage orders</Link>
