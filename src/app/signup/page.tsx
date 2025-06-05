@@ -20,6 +20,8 @@ export default function SignupPage() {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
+    watch,
+    setValue,
   } = useForm<phoneNumberType>({
     resolver: yupResolver(loginSchema),
   });
@@ -31,8 +33,19 @@ export default function SignupPage() {
       phoneInputRef.current.select(); // 👈 کل متن رو انتخاب می‌کنه
     }
   }, []);
-
+  const phoneValue = watch("phonenumber") || "";
+  useEffect(() => {
+    const english = phoneValue.replace(
+      /[۰-۹]/g,
+      (d) => "0123456789"["۰۱۲۳۴۵۶۷۸۹".indexOf(d)]
+    );
+    if (english !== phoneValue) {
+      setValue("phonenumber", english);
+    }
+  }, [phoneValue, setValue]);
   const onSubmit = async (data: phoneNumberType) => {
+    console.log(data);
+    
     try {
       const res = await api.post("/Account/PhoneNumber", {
         phoneNumber: data.phonenumber,
@@ -77,11 +90,13 @@ export default function SignupPage() {
 
           <Input
             id="phone"
-            className="text-muted-foreground"
             {...register("phonenumber")}
+            value={phoneValue.replace(/\d/g, (d) => "۰۱۲۳۴۵۶۷۸۹"[+d])} // برای نمایش فارسی
+            onChange={(e) => setValue("phonenumber", e.target.value)}
+            ref={phoneInputRef}
             error={Boolean(errors.phonenumber)}
             errorMessage={errors.phonenumber?.message}
-            ref={phoneInputRef}
+            className="text-muted-foreground"
           />
         </div>
         <Button
