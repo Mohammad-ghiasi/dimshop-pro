@@ -564,7 +564,7 @@ export default function AddProductForm() {
             </span>
             <span>
               توجه: تصاویر بعد از انتخواب شدن, در فضای ابری ذخیره میشوند. پس در
-              صورت عدم ایجاد کالا با کلیک روی "x" آن ها را حذف کنید
+              صورت عدم ایجاد کالا با کلیک روی &quot;x&quot; آن ها را حذف کنید
             </span>
           </p>
           <p className="flex gap-x-2 text-[10px] md:text-xs text-subtle-foreground">
@@ -573,7 +573,7 @@ export default function AddProductForm() {
             </span>
             <span>
               کلمات کلیدی برای جستجو اهمیت زیادی دارند. پس با دقت کلمات را وارد
-              کنید و با " , "(کاما) کلمات را جدا کنید
+              کنید و با &quot; , &quot;(کاما) کلمات را جدا کنید
             </span>
           </p>
           <p className="flex gap-x-2 text-[10px] md:text-xs text-subtle-foreground">
