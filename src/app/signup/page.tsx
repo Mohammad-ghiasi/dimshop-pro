@@ -69,7 +69,7 @@ export default function SignupPage() {
             <Smartphone className="absolute right-3 top-[7px] text-subtle-foreground w-5 h-5" />
             <Input
               id="phone"
-              className="pr-10 ring-1 text-muted-foreground py-3 pt-3 md:pt-4 lg:pt-4"
+              className="pr-10 ring-1 text-muted-foreground py-3 pt-4 md:pt-4 lg:pt-3"
               {...register("phonenumber")}
               error={Boolean(errors.phonenumber)}
               errorMessage={errors.phonenumber?.message}
