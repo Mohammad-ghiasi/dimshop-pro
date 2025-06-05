@@ -4,7 +4,7 @@ import Image from "next/image";
 import { useApiMutation } from "@/hooks/useMutation";
 import { Trash2 } from "lucide-react";
 import { Category } from "@/types/categoryTypes";
-import { deleteImge } from "@/supabase/deleteFile";
+import { deleteImage } from "@/supabase/deleteFile";
 
 export default function CategoryItem({
   categoryItem,
@@ -19,7 +19,9 @@ export default function CategoryItem({
     onErrorMessage: "خطا در حذف دسته بندی",
   });
   const handleDelleteCategory = async () => {
-    await deleteImge(categoryItem.imagePath);
+    console.log(categoryItem.imagePath);
+
+    await deleteImage("category", categoryItem.imagePath);
     mutation.mutate({ id: categoryItem.id });
   };
   return (

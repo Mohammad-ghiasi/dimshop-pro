@@ -8,19 +8,15 @@
   --background-end-rgb: 255, 255, 255;
 }
 
-
-
 html {
   scroll-behavior: smooth;
   box-sizing: border-box;
 }
 
-
-
 /* اسکرولبار عمومی برای محورهای X و Y */
 ::-webkit-scrollbar {
   height: 4px; /* ارتفاع اسکرولبار افقی */
-  width: 4px;  /* عرض اسکرولبار عمودی */
+  width: 4px; /* عرض اسکرولبار عمودی */
 }
 
 /* مسیر اسکرولبار */
@@ -42,14 +38,13 @@ html {
     --background-end-rgb: 0, 0, 0;
   }
 }
-*{
+* {
   box-sizing: border-box;
 }
 
 @layer utilities {
   .text-balance {
     text-wrap: balance;
-    
   }
 }
 
@@ -87,6 +82,8 @@ html {
     --custom-green-hover: 179 72% 35%;
     --warning: 45 100% 51%;
     --warning-foreground: 0 0% 10%;
+    --soft-orange: 30 100% 97%;
+    --subtle-foreground: 0 0% 60%;
   }
   .dark {
     --background: 0 0% 3.9%;
@@ -120,6 +117,8 @@ html {
     --custom-green-hover: 179 72% 35%;
     --warning: 45 100% 40%;
     --warning-foreground: 0 0% 100%;
+    --soft-orange: 30 50% 7%;
+    --subtle-foreground: 0 0% 50%;
   }
 }
 

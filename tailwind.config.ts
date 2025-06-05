@@ -72,7 +72,15 @@ const config: Config = {
         },
         warning: {
           DEFAULT: "hsl(var(--warning))",
-          foreground: "hsl(var(--warning-foreground)",
+          foreground: "hsl(var(--warning-foreground))",
+        },
+        softorange: {
+          DEFAULT: "hsl(var(--soft-orange))",
+          foreground: "hsl(var(--soft-orange-foreground))",
+        },
+        subtle: {
+          DEFAULT: "hsl(var(--subtle))",
+          foreground: "hsl(var(--subtle-foreground))",
         },
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",

@@ -18,3 +18,7 @@ export const danaLight = localFont({
   src: [{ path: "../../../public/fonts/dana-medium.woff2", weight: "400", style: "normal" }],
   display: "swap",
 });
+export const danaExtraLight = localFont({
+  src: [{ path: "../../../public/fonts/dana-ight.woff2", weight: "400", style: "normal" }],
+  display: "swap",
+});

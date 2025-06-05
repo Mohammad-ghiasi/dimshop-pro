@@ -3,7 +3,8 @@
 import { useToast } from "@/hooks/use-toast";
 import { useApiMutation } from "@/hooks/useMutation";
 import { useApiQuery } from "@/hooks/useQuery";
-import { deleteImge } from "@/supabase/deleteFile";
+import { deleteImage } from "@/supabase/deleteFile";
+import { saveFiler } from "@/supabase/fileSaver";
 import { uploadImageFile } from "@/supabase/uploadfile";
 import { Banner, Banners } from "@/types/bannerType";
 import { Plus, Trash2 } from "lucide-react";
@@ -23,6 +24,8 @@ export default function BannerPage() {
     url: "/ManagePages/GetBanners",
   });
 
+  console.log(data);
+
   const addMutationBanner = useApiMutation({
     method: "post",
     url: "/ManagePages/AddBanner",
@@ -38,57 +41,8 @@ export default function BannerPage() {
     onErrorMessage: "خطا در حذف بنر",
   });
 
-  const handleFileSave = async (file: File) => {
-    // const file = event.target.files?.[0];
-    if (!file) return;
-    if (!allowedTypes.includes(file.type)) {
-      toast({
-        description: "لطفا از فرمت های مجاز برای عکس استفاده کنید",
-        variant: "destructive",
-      });
-      return;
-    }
-
-    if (file.size > maxSizeInBytes) {
-      toast({
-        description: "حجم فایل بیشتر از حد مجاز است",
-        variant: "destructive",
-      });
-      return;
-    }
-    setUploading(true)
-
-    const url = URL.createObjectURL(file);
-    setPreviewUrl(url);
-
-    try {
-      // uplad image
-      const { data, error } = await uploadImageFile(file);
-
-      if (error) throw error;
-
-      const formatted = data?.fullPath.replace(/ /g, "_");
-
-      const publicUrl = `${baseImageUrl}${formatted}`;
-
-      toast({
-        description: "عکس با موفقیت آپلود شد",
-        variant: "success",
-      });
-      setUploading(false)
-      return publicUrl;
-    } catch (error) {
-      console.error("خطا در آپلود:", error);
-      toast({
-        description: "مشکلی در آپلود پیش اومده",
-        variant: "destructive",
-      });
-    } finally {
-      setUploading(false);
-    }
-  };
-
   const bannerHanlder = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    setUploading(true);
     const file = event.target.files?.[0];
     if (!file) return;
 
@@ -107,13 +61,30 @@ export default function BannerPage() {
       });
       return;
     }
-    const finalUrl = await handleFileSave(file);
     setPreviewUrl(file.name);
-    addMutationBanner.mutate({ bannerPath: finalUrl });
-    console.log(finalUrl);
+    const { publicUrl, errorMessage, successMessage } = await saveFiler(
+      file,
+      "banners"
+    );
+    if (errorMessage) {
+      toast({
+        description: errorMessage,
+        variant: "destructive",
+      });
+      return;
+    }
+    if (successMessage) {
+      toast({
+        description: successMessage,
+        variant: "success",
+      });
+    }
+    addMutationBanner.mutate({ bannerPath: publicUrl });
+    setUploading(false);
+    setPreviewUrl("");
   };
   const bannerDeleter = async (item: Banner) => {
-    await deleteImge(item.bannerImage);
+    await deleteImage("banners", item.bannerImage);
     DeleteMutation.mutate({ id: item.id });
   };
 
@@ -145,7 +116,11 @@ export default function BannerPage() {
           <span className="text-sm text-gray-500">
             {previewUrl ? `انتخاب‌شده: ${previewUrl}` : "آپلود تصویر"}
           </span>
-          {uploading && (<span className="text-sm text-foreground ms-16">درحال آپلود...</span>)}
+          {uploading && (
+            <span className="text-sm text-foreground ms-16">
+              درحال آپلود...
+            </span>
+          )}
         </div>
       </div>
 
@@ -153,8 +128,8 @@ export default function BannerPage() {
         {data?.length === 0 && <p>موردی یافت نشد</p>}
         <div className="flex flex-col gap-y-5">
           {data?.map((item: Banner) => (
-            <>
-              <div className="relative w-[100%] h-[300px]" key={item.id}>
+            <div key={item.id}>
+              <div className="relative w-[100%] h-[300px]">
                 <Image
                   alt="banners"
                   src={item.bannerImage}
@@ -162,14 +137,14 @@ export default function BannerPage() {
                   loading="lazy"
                 />
               </div>
-              <div className="flex justify-center">
+              <div className="flex justify-center my-4">
                 <Trash2
                   className="text-destructive cursor-pointer"
                   onClick={() => bannerDeleter(item)}
                 />
               </div>
               <hr />
-            </>
+            </div>
           ))}
         </div>
       </div>

@@ -1,5 +1,5 @@
 "use client"
-import { House, MessageCircle, ShoppingCart, UserRound } from "lucide-react";
+import { Headphones, House, ShoppingCart, UserRound } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils"; // اگر از clsx یا class-variance-authority استفاده می‌کنید
@@ -9,10 +9,10 @@ export default function MobileMenu() {
 
   // لیست روت‌ها و آیکون‌های مربوطه
   const links = [
-    { href: "/ticket", icon: <MessageCircle />, name: "tiket" },
     { href: "/", icon: <House />, name: "home" },
-    { href: "/chart", icon: <ShoppingCart />, name: "chart" },
     { href: "/userpanel", icon: <UserRound />, name: "userpanel" },
+    { href: "/chart", icon: <ShoppingCart />, name: "chart" },
+    { href: "/ticket", icon: <Headphones />, name: "tiket" },
   ];
 
   return (

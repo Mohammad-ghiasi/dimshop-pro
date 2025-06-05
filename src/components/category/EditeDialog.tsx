@@ -16,7 +16,6 @@ import { uploadImageFile } from "@/supabase/uploadfile";
 import Image from "next/image";
 import { useApiMutation } from "@/hooks/useMutation";
 import { Category } from "@/types/categoryTypes";
-import { deleteImge } from "@/supabase/deleteFile";
 
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -24,6 +23,8 @@ import * as yup from "yup";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import * as DialogPrimitive from "@radix-ui/react-dialog";
+import { deleteImage } from "@/supabase/deleteFile";
+import { saveFiler } from "@/supabase/fileSaver";
 
 const schema: yup.ObjectSchema<FormData> = yup.object({
   name: yup.string().required("نام الزامی است"),
@@ -80,16 +81,20 @@ export function EditCategoryDialog({ item }: { item: Category }) {
       return;
     }
 
-    const { data, error } = await uploadImageFile(file);
-    if (error) {
-      toast({ description: "خطا در آپلود عکس", variant: "destructive" });
+    const {  publicUrl, errorMessage, successMessage } = await saveFiler(file, "category");
+        if (errorMessage) {
+      toast({
+        description: errorMessage,
+        variant: "destructive",
+      });
       return;
     }
-
-    const baseUrl =
-      "https://aiobrhqkxhmnpzhljono.supabase.co/storage/v1/object/public/";
-    const formattedPath = data?.fullPath.replace(/ /g, "_");
-    const publicUrl = `${baseUrl}${formattedPath}`;
+    if (successMessage) {
+      toast({
+        description: successMessage,
+        variant: "success",
+      });
+    }
 
     toast({ description: "آپلود موفق", variant: "success" });
     return publicUrl;
@@ -99,7 +104,7 @@ export function EditCategoryDialog({ item }: { item: Category }) {
     let finalUrl = formData.imagePath;
 
     if (selectedFile) {
-      await deleteImge(item.imagePath);
+      await deleteImage("category", item.imagePath);
       const newUrl = await handleFileSave(selectedFile);
       if (newUrl) {
         finalUrl = newUrl;

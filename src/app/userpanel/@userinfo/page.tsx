@@ -6,7 +6,6 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import HeaderTitle from "@/components/headerTitle/HeaderTitle";
 import { Badge } from "@/components/ui/badge";
-// import UserInfoSkeleton from "@/components/skeleton/UserInfoSkeleton";
 import { Label } from "@/components/ui/label";
 import { CircleAlert, Plus, ShieldUser } from "lucide-react";
 import {
@@ -23,15 +22,15 @@ import { useApiMutation } from "@/hooks/useMutation";
 import { getCookie } from "@/lib/cookies";
 import Link from "next/link";
 import { useApiQuery } from "@/hooks/useQuery";
-import { deleteImge } from "@/supabase/deleteFile";
-import { uploadImageFile } from "@/supabase/uploadfile";
 import { cashDeleter } from "@/utils/serverActions/cashDeleter";
+import { deleteImage } from "@/supabase/deleteFile";
+import { saveFiler } from "@/supabase/fileSaver";
 
 export default function UserProfilePage() {
   // stats
   const [uploading, setUploading] = useState<boolean>(false);
   const [admin, setAdmin] = useState<boolean>(false);
-  const [imgUrl, setImgUrl] = useState<string | null>(null);
+  const [imgUrl, setImgUrl] = useState<string | undefined>(undefined);
   // image input
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   // toast
@@ -61,22 +60,9 @@ export default function UserProfilePage() {
     imagePath?: string
   ) => {
     const file = event.target.files?.[0];
-    if (!file) return;
-
-    const allowedTypes = ["image/png", "image/jpeg", "image/jpg", "image/webp"];
-    const maxSizeInBytes = 5 * 1024 * 1024; // 5MB
-
-    if (!allowedTypes.includes(file.type)) {
+    if (!file) {
       toast({
-        description: "لطفا از فرمت های مجاز برای عکس استفاده کنید",
-        variant: "destructive",
-      });
-      return;
-    }
-
-    if (file.size > maxSizeInBytes) {
-      toast({
-        description: "حجم فایل بیشتر از حد مجاز است",
+        description: "لطفا یک فایل انتخاب کنید",
         variant: "destructive",
       });
       return;
@@ -84,9 +70,28 @@ export default function UserProfilePage() {
 
     try {
       setUploading(true);
-      // delete cutent image if exist
+
+      // uplad image
+
+      const { publicUrl, errorMessage, successMessage } = await saveFiler(
+        file,
+        "users"
+      );
+      if (errorMessage) {
+        toast({
+          description: errorMessage,
+          variant: "destructive",
+        });
+        return;
+      }
+      if (successMessage) {
+        toast({
+          description: successMessage,
+          variant: "success",
+        });
+      }
       try {
-        deleteImge(imagePath);
+        await deleteImage("users", imagePath);
       } catch (error) {
         toast({
           description: "مشکلی در حذف عکس قبلی پیش اومد",
@@ -94,19 +99,10 @@ export default function UserProfilePage() {
         });
       }
 
-      // uplad image
-      const { data, error } = await uploadImageFile(file);
-
-      if (error) throw error;
-
-      const formatted = data?.fullPath.replace(/ /g, "_");
-
-      const publicUrl = `${baseImageUrl}${formatted}`; // یا از supabase.storage.from().getPublicUrl() هم می‌تونی استفاده کنی
-
       mutation.mutate({ imagePath: publicUrl });
 
       setImgUrl(publicUrl);
-
+      setUploading(false);
       toast({
         description: "عکس با موفقیت آپلود شد",
         variant: "success",
@@ -173,8 +169,7 @@ export default function UserProfilePage() {
       </HeaderTitle>
       {isLoading &&
         // <UserInfoSkeleton />
-        null
-        }
+        null}
       <>
         {/* profile image */}
         <div className="relative mb-8">
@@ -306,7 +301,7 @@ export default function UserProfilePage() {
                 <div className="relative">
                   {data?.user.phoneNumberConfirmed !== undefined && (
                     <Badge
-                      className={`absolute left-2 top-[18px] -translate-y-1/2 z-10 px-2 py-0.5 pt-[4px] text-warning-foreground text-[10px]  ${
+                      className={`absolute left-2 top-[18px] -translate-y-1/2 z-10 px-2 py-0.5 pt-[4px] text-warning-foreground text-[10px] text-white  ${
                         data?.user.phoneNumberConfirmed
                           ? "bg-success"
                           : "bg-warning cursor-pointer"
