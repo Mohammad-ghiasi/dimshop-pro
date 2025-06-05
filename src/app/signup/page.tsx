@@ -13,6 +13,7 @@ import { toast } from "@/hooks/use-toast";
 import { phoneNumberType } from "@/types/loginSignup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { loginSchema } from "@/yup/loginSigupReolver";
+import { useEffect, useRef } from "react";
 
 export default function SignupPage() {
   const {
@@ -23,6 +24,13 @@ export default function SignupPage() {
     resolver: yupResolver(loginSchema),
   });
   const router = useRouter();
+  const phoneInputRef = useRef<HTMLInputElement>(null);
+  useEffect(() => {
+    if (phoneInputRef.current) {
+      phoneInputRef.current.focus();
+      phoneInputRef.current.select(); // 👈 کل متن رو انتخاب می‌کنه
+    }
+  }, []);
 
   const onSubmit = async (data: phoneNumberType) => {
     try {
@@ -30,7 +38,6 @@ export default function SignupPage() {
         phoneNumber: data.phonenumber,
       });
       console.log(res);
-      
 
       setCookie("phoneNumber", data.phonenumber, 1);
       // //********
@@ -56,25 +63,26 @@ export default function SignupPage() {
           <ThemeImage w={200} h={20} />
         </div>
         <div>
-         <div className="">
-           <p className={`${danaExtraBold.className} text-sm md:text-xl mb-5`}>
-            ورود | ثبت نام
-          </p>
-          <p className="text-muted-foreground text-[12px] md:text-sm">سلام!</p>
-          <p className="text-muted-foreground text-[12px] md:text-sm pb-5">
-            لطفا شماره موبایل خود را وارد کنید
-          </p>
-         </div>
-          <div className="relative">
-            <Smartphone className="absolute right-3 top-[7px] text-subtle-foreground w-5 h-5" />
-            <Input
-              id="phone"
-              className="pr-10 ring-1 text-muted-foreground py-3 pt-4 md:pt-4 lg:pt-3"
-              {...register("phonenumber")}
-              error={Boolean(errors.phonenumber)}
-              errorMessage={errors.phonenumber?.message}
-            />
+          <div className="">
+            <p className={`${danaExtraBold.className} text-sm md:text-xl mb-5`}>
+              ورود | ثبت نام
+            </p>
+            <p className="text-muted-foreground text-[12px] md:text-sm">
+              سلام!
+            </p>
+            <p className="text-muted-foreground text-[12px] md:text-sm pb-5">
+              لطفا شماره موبایل خود را وارد کنید
+            </p>
           </div>
+
+          <Input
+            id="phone"
+            className="text-muted-foreground"
+            {...register("phonenumber")}
+            error={Boolean(errors.phonenumber)}
+            errorMessage={errors.phonenumber?.message}
+            ref={phoneInputRef}
+          />
         </div>
         <Button
           type="submit"
