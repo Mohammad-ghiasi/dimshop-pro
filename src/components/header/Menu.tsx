@@ -6,7 +6,6 @@ import {
   MenubarSeparator,
   MenubarTrigger,
 } from "../ui/menubar";
-import { AvatarFallback } from "../ui/avatar";
 import {
   History,
   House,
@@ -15,7 +14,6 @@ import {
   ShoppingCart,
 } from "lucide-react";
 import Link from "next/link";
-import { UserProfile } from "@/types/useProfile";
 import { cookies } from "next/headers";
 import api from "@/lib/api";
 import Logout from "../Logout";
@@ -26,7 +24,12 @@ export default async function Menu() {
   const token = cookies().get("authToken")?.value;
   const haseRolerole = cookies().get("userRole")?.value;
   const decodedRole = decryptData(haseRolerole).replace(/^"|"$/g, "");
-  const isadmin: boolean = (decodedRole === "1" || decodedRole === "2" )? true : decodedRole === "3" ? false : false;
+  const isadmin: boolean =
+    decodedRole === "1" || decodedRole === "2"
+      ? true
+      : decodedRole === "3"
+        ? false
+        : false;
 
   let data;
   try {
@@ -38,7 +41,18 @@ export default async function Menu() {
     return (
       <Avatar className="h-8 w-8 md:h-10 md:w-10 shadow-md cursor-pointer rounded-full overflow-hidden">
         <Link href="/signup">
-          <AvatarFallback className="pt-2">US</AvatarFallback>
+          <Avatar className="h-8 w-8 md:h-10 md:w-10 shadow-md cursor-pointer">
+            {" "}
+            {/* اندازه ثابت */}
+            <AvatarImage
+              src="/images/sampleUser.jpg"
+              className="object-cover w-full h-full"
+              loading="eager"
+              alt="User avatar"
+            />{" "}
+            {/* جلوگیری از کشیدگی */}
+            {/* <AvatarFallback className="object-cover">US</AvatarFallback> */}
+          </Avatar>
         </Link>
       </Avatar>
     ); // یا یک fallback ساده
@@ -46,99 +60,113 @@ export default async function Menu() {
 
   return (
     <>
-      {!token ? (
-        <Avatar className="h-8 w-8 md:h-10 md:w-10 shadow-md cursor-pointer rounded-full overflow-hidden">
-          <Link href="/signup">
-            <AvatarFallback className="pt-2">US</AvatarFallback>
-          </Link>
-        </Avatar>
-      ) : (
-        <Menubar className="  border-none shadow-none">
-          <MenubarMenu>
-            <MenubarTrigger className="p-0 rounded-full overflow-hidden focus:scale-100 border-0 ">
+      <Menubar className="  border-none shadow-none">
+        <MenubarMenu>
+          <MenubarTrigger className="p-0 rounded-full overflow-hidden focus:scale-100 border-0 ">
+            {" "}
+            {/* اضافه کردن استایل‌های کنترل‌کننده */}
+            <Avatar className="h-8 w-8 md:h-10 md:w-10 shadow-md cursor-pointer">
               {" "}
-              {/* اضافه کردن استایل‌های کنترل‌کننده */}
+              {/* اندازه ثابت */}
+              <AvatarImage
+                src={data?.data.user.imagePath || "/default-avatar.png"}
+                className="object-cover w-full h-full"
+                loading="eager"
+                alt="User avatar"
+              />{" "}
+              {/* جلوگیری از کشیدگی */}
               <Avatar className="h-8 w-8 md:h-10 md:w-10 shadow-md cursor-pointer">
                 {" "}
                 {/* اندازه ثابت */}
                 <AvatarImage
-                  src={data?.data.user.imagePath || "/default-avatar.png"}
+                  src="/images/sampleUser.jpg"
                   className="object-cover w-full h-full"
                   loading="eager"
                   alt="User avatar"
                 />{" "}
                 {/* جلوگیری از کشیدگی */}
-                <AvatarFallback className="object-cover">US</AvatarFallback>
+                {/* <AvatarFallback className="object-cover">US</AvatarFallback> */}
               </Avatar>
-            </MenubarTrigger>
-            <MenubarContent>
-              <MenubarItem>
-                <div className="flex w-full justify-end items-center space-x-3">
-                  <span>
-                    {data?.data.user.firstName || data?.data.user.phoneNumber}
-                  </span>
-                  <span className="w-12 h-12 p-0 rounded-full overflow-hidden focus:scale-100 border">
-                    {
-                      <Avatar className="h-10 w-10 shadow-md cursor-pointer">
+            </Avatar>
+          </MenubarTrigger>
+          <MenubarContent>
+            <MenubarItem>
+              <div className="flex w-full justify-end items-center space-x-3">
+                <span>
+                  {data?.data.user.firstName || data?.data.user.phoneNumber}
+                </span>
+                <span className="w-12 h-12 p-0 rounded-full overflow-hidden focus:scale-100 border">
+                  {
+                    <Avatar className="h-10 w-10 shadow-md cursor-pointer">
+                      {" "}
+                      {/* اندازه ثابت */}
+                      <AvatarImage
+                        src={data?.data.user.imagePath}
+                        className="object-cover"
+                      />{" "}
+                      {/* جلوگیری از کشیدگی */}
+                      <Avatar className="h-8 w-8 md:h-10 md:w-10 shadow-md cursor-pointer">
                         {" "}
                         {/* اندازه ثابت */}
                         <AvatarImage
-                          src={data?.data.user.imagePath}
-                          className="object-cover"
+                          src="/images/sampleUser.jpg"
+                          className="object-cover w-full h-full"
+                          loading="eager"
+                          alt="User avatar"
                         />{" "}
                         {/* جلوگیری از کشیدگی */}
-                        <AvatarFallback>US</AvatarFallback>
+                        {/* <AvatarFallback className="object-cover">US</AvatarFallback> */}
                       </Avatar>
-                    }
-                  </span>
-                </div>
-              </MenubarItem>
-              <MenubarSeparator />
-              {isadmin && (
-                <MenubarItem>
-                  <Link
-                    href="/adminpanel"
-                    className="flex w-full justify-end space-x-3"
-                  >
-                    <span>پنل ادمین</span>
-                    <span>{<ShieldUser className="h-5 w-5" />}</span>
-                  </Link>
-                </MenubarItem>
-              )}
+                    </Avatar>
+                  }
+                </span>
+              </div>
+            </MenubarItem>
+            <MenubarSeparator />
+            {isadmin && (
               <MenubarItem>
                 <Link
-                  href="/userpanel"
+                  href="/adminpanel"
                   className="flex w-full justify-end space-x-3"
                 >
-                  <span>پیشخوان</span>
-                  <span>{<House className="h-5 w-5" />}</span>
+                  <span>پنل ادمین</span>
+                  <span>{<ShieldUser className="h-5 w-5" />}</span>
                 </Link>
               </MenubarItem>
-              <MenubarItem>
-                <div className="flex w-full justify-end space-x-3">
-                  <span>سبد خرید</span>
-                  <span>{<ShoppingCart className="h-5 w-5" />}</span>
-                </div>
-              </MenubarItem>
-              <MenubarItem>
-                <div className="flex w-full justify-end space-x-3">
-                  <span>سفارش های من</span>
-                  <span>{<History className="h-5 w-5" />}</span>
-                </div>
-              </MenubarItem>
-              <MenubarItem>
-                <div className="flex w-full justify-end space-x-3">
-                  <span>تیکت های من</span>
-                  <span>{<MessageCircle className="h-5 w-5" />}</span>
-                </div>
-              </MenubarItem>
+            )}
+            <MenubarItem>
+              <Link
+                href="/userpanel"
+                className="flex w-full justify-end space-x-3"
+              >
+                <span>پیشخوان</span>
+                <span>{<House className="h-5 w-5" />}</span>
+              </Link>
+            </MenubarItem>
+            <MenubarItem>
+              <div className="flex w-full justify-end space-x-3">
+                <span>سبد خرید</span>
+                <span>{<ShoppingCart className="h-5 w-5" />}</span>
+              </div>
+            </MenubarItem>
+            <MenubarItem>
+              <div className="flex w-full justify-end space-x-3">
+                <span>سفارش های من</span>
+                <span>{<History className="h-5 w-5" />}</span>
+              </div>
+            </MenubarItem>
+            <MenubarItem>
+              <div className="flex w-full justify-end space-x-3">
+                <span>تیکت های من</span>
+                <span>{<MessageCircle className="h-5 w-5" />}</span>
+              </div>
+            </MenubarItem>
 
-              <MenubarSeparator />
-              <Logout />
-            </MenubarContent>
-          </MenubarMenu>
-        </Menubar>
-      )}
+            <MenubarSeparator />
+            <Logout />
+          </MenubarContent>
+        </MenubarMenu>
+      </Menubar>
     </>
   );
 }

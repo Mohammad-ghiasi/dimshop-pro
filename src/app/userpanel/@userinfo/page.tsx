@@ -184,7 +184,7 @@ export default function UserProfilePage() {
               <div
                 className="w-full h-full rounded-full bg-accent bg-center bg-cover border"
                 style={{
-                  backgroundImage: imgUrl ? `url(${imgUrl})` : undefined,
+                  backgroundImage: imgUrl ? `url(${imgUrl})` : `url("/images/sampleUser.jpg")`,
                 }}
               />
               <Button
@@ -261,7 +261,7 @@ export default function UserProfilePage() {
 
               <div className="relative">
                 {data?.user.emailConfirmed ? (
-                  <Badge className="absolute left-2 top-[18px]  -translate-y-1/2 z-10 text-xs px-2 py-0.5 pt-[4px] text-warning-foreground text-[10px] bg-success">
+                  <Badge className="absolute left-2 top-[18px]  -translate-y-1/2 z-10 text-xs px-2 py-0.5 pt-[4px] text-white text-[10px] bg-success">
                     تأیید شده
                   </Badge>
                 ) : (

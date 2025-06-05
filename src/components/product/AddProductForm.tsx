@@ -17,9 +17,8 @@ import {
 } from "../ui/select";
 import { useApiQuery } from "@/hooks/useQuery";
 import { Category, Categoryes } from "@/types/categoryTypes";
-import type { AddProductForm, Color, Image, Tag } from "@/types/AddProductType";
+import type { AddProductForm, Image } from "@/types/AddProductType";
 import { useRouter } from "next/navigation";
-import { useApiMutation } from "@/hooks/useMutation";
 export default function AddProductForm() {
   const {
     register,
@@ -373,7 +372,6 @@ export default function AddProductForm() {
             <span>افزودن رنگ جدید</span>
           </span>
         </Button>
-        <p className="text-red-500 text-sm mt-1">{errors.colors?.message}</p>
       </div>
 
       {/* 🔸 مسیر عکس ۳بعدی */}
@@ -565,7 +563,8 @@ export default function AddProductForm() {
               <Info className="text-warning w-3 h-3 md:w-4 md:h-4" />
             </span>
             <span>
-             توجه: تصاویر بعد از انتخواب شدن, در فضای ابری ذخیره میشوند. پس در صورت عدم ایجاد کالا با کلیک روی "x" آن ها را حذف کنید
+              توجه: تصاویر بعد از انتخواب شدن, در فضای ابری ذخیره میشوند. پس در
+              صورت عدم ایجاد کالا با کلیک روی "x" آن ها را حذف کنید
             </span>
           </p>
           <p className="flex gap-x-2 text-[10px] md:text-xs text-subtle-foreground">

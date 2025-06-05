@@ -72,7 +72,7 @@ export default function UserPanelNavigationBar() {
               <div className="relative w-[80px] h-[80px]">
                 <Image
                   alt="user-imahe"
-                  src={data?.user.imagePath || "/images/sampleUser.png"}
+                  src={data?.user.imagePath || "/images/sampleUser.jpg"}
                   fill
                   loading="lazy"
                   objectFit="cover"

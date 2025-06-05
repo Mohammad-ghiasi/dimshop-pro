@@ -64,10 +64,10 @@ export default function SignupPage() {
             لطفا شماره موبایل خود را وارد کنید
           </p>
           <div className="relative">
-            <Smartphone className="absolute right-3 top-[21px] -translate-y-1/2 text-muted-foreground w-5 h-5" />
+            <Smartphone className="absolute right-3 top-[7px] text-subtle-foreground w-5 h-5" />
             <Input
               id="phone"
-              className="pr-10 py-5 ring-1 text-muted-foreground"
+              className="pr-10 ring-1 text-muted-foreground"
               {...register("phonenumber")}
               error={Boolean(errors.phonenumber)}
               errorMessage={errors.phonenumber?.message}
