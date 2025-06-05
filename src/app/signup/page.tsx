@@ -55,19 +55,21 @@ export default function SignupPage() {
         <div className="flex justify-center mb-10">
           <ThemeImage w={200} h={20} />
         </div>
-        <div className="space-y-2">
-          <p className={`${danaExtraBold.className} text-sm md:text-xl mb-5`}>
+        <div>
+         <div className="">
+           <p className={`${danaExtraBold.className} text-sm md:text-xl mb-5`}>
             ورود | ثبت نام
           </p>
           <p className="text-muted-foreground text-[12px] md:text-sm">سلام!</p>
           <p className="text-muted-foreground text-[12px] md:text-sm pb-5">
             لطفا شماره موبایل خود را وارد کنید
           </p>
+         </div>
           <div className="relative">
             <Smartphone className="absolute right-3 top-[7px] text-subtle-foreground w-5 h-5" />
             <Input
               id="phone"
-              className="pr-10 ring-1 text-muted-foreground"
+              className="pr-10 ring-1 text-muted-foreground py-3 pt-3 md:pt-4 lg:pt-4"
               {...register("phonenumber")}
               error={Boolean(errors.phonenumber)}
               errorMessage={errors.phonenumber?.message}
