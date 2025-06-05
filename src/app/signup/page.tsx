@@ -77,7 +77,7 @@ export default function SignupPage() {
 
           <Input
             id="phone"
-            className="text-muted-foreground pt-1 md:pt-2"
+            className="text-muted-foreground"
             {...register("phonenumber")}
             error={Boolean(errors.phonenumber)}
             errorMessage={errors.phonenumber?.message}
