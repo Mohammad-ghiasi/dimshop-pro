@@ -17,7 +17,7 @@ import Link from "next/link";
 import { cookies } from "next/headers";
 import api from "@/lib/api";
 import Logout from "../Logout";
-import { Avatar, AvatarImage } from "@radix-ui/react-avatar";
+import { Avatar, AvatarFallback, AvatarImage } from "@radix-ui/react-avatar";
 import { decryptData } from "@/lib/crypto";
 
 export default async function Menu() {
@@ -65,9 +65,8 @@ export default async function Menu() {
           <MenubarTrigger className="p-0 rounded-full overflow-hidden focus:scale-100 border-0 ">
             {" "}
             {/* اضافه کردن استایل‌های کنترل‌کننده */}
-            <Avatar className="h-8 w-8 md:h-10 md:w-10 shadow-md cursor-pointer">
-              {" "}
-              {/* اندازه ثابت */}
+            <Avatar className="h-8 w-8 md:h-10 md:w-10 shadow-md cursor-pointer bg-muted-foreground">
+       {/* اندازه ثابت */}
               <AvatarImage
                 src={data?.data.user.imagePath || "/default-avatar.png"}
                 className="object-cover w-full h-full"

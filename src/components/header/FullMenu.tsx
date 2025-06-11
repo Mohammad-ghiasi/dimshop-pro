@@ -1,12 +1,13 @@
 "use client";
 import { useState, useEffect, useRef, useCallback } from "react";
 import { debounce } from "lodash";
-import dynamic from "next/dynamic";
 
+type Props = {
+  topMenu: React.ReactNode;
+  bottomMenu: React.ReactNode;
+};
 
-const MobileMenu = dynamic(() => import("./mobile/MobileMenu"), { ssr: false });
-
-export default function FullMenu({ children }: { children: React.ReactNode }) {
+export default function FullMenu({ topMenu, bottomMenu }: Props) {
   const [scrollingStatus, setScrollingStatus] = useState<
     "up" | "down" | "default"
   >("default");
@@ -28,7 +29,6 @@ export default function FullMenu({ children }: { children: React.ReactNode }) {
   }, []);
 
   useEffect(() => {
-
     const debouncedScroll = debounce(handleScroll, 300, {
       leading: true,
       trailing: true,
@@ -49,7 +49,7 @@ export default function FullMenu({ children }: { children: React.ReactNode }) {
           scrollingStatus !== "down" ? "translate-y-0" : "-translate-y-full"
         }`}
       >
-        {children}
+        {topMenu}
       </div>
       <div
         className={`fixed bottom-0 left-0 w-full z-20 transition-transform duration-300 ${
@@ -58,7 +58,7 @@ export default function FullMenu({ children }: { children: React.ReactNode }) {
             : "translate-y-full"
         }`}
       >
-        <MobileMenu />
+        {bottomMenu}
       </div>
     </>
   );
