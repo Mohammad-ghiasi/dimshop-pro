@@ -14,6 +14,8 @@ export function useApiQuery<TData = any>({
   return useQuery<TData, any>({
     queryKey,
     queryFn: async () => {
+      console.log(url);
+      
       const res = await api.get(url, {
         headers: {
           Authorization: `Bearer ${token}`,

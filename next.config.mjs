@@ -3,6 +3,7 @@ const nextConfig = {
   images: {
     domains: [
       'aiobrhqkxhmnpzhljono.supabase.co', // 👈 دامنه supabase
+      'aiobrhqkxhmnpzhljono.supabase.co'
       // بقیه دامنه‌هایی که استفاده می‌کنی هم اینجا می‌تونی بذاری
     ],
   },

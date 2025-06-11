@@ -33,6 +33,10 @@ export function useApiMutation<TData = any, TVariables = any>({
           : undefined,
         ...config,
       });
+      console.log("called");
+      
+      console.log(res);
+      
       return res.data;
     },
     onSuccess: () => {

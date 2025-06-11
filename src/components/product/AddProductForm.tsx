@@ -1,11 +1,11 @@
 "use client";
 import { useForm, useFieldArray, Controller } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { productSchema } from "@/yup/productResolver";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
-import { ArrowRight, Info, Plus, Trash2 } from "lucide-react";
+import { ArrowRight, Info, Plus, Trash2, X } from "lucide-react";
 import { Textarea } from "../ui/textarea";
 import {
   SelectItem,
@@ -17,9 +17,25 @@ import {
 } from "../ui/select";
 import { useApiQuery } from "@/hooks/useQuery";
 import { Category, Categoryes } from "@/types/categoryTypes";
-import type { AddProductForm, Image } from "@/types/AddProductType";
+import type { AddProductForm, ProductImage } from "@/types/AddProductType";
 import { useRouter } from "next/navigation";
-export default function AddProductForm() {
+import { saveFiler } from "@/supabase/fileSaver";
+import { useToast } from "@/hooks/use-toast";
+import { deleteImage } from "@/supabase/deleteFile";
+import Image from "next/image";
+import { useApiMutation } from "@/hooks/useMutation";
+import { RootProduct } from "@/types/singlProduct";
+type initialFomrProp = {
+  initialProductData?: RootProduct;
+};
+const getFileName = (fullPath: string) => {
+  return fullPath.split("/").pop() || "";
+};
+
+export default function AddProductForm(initialProductData: initialFomrProp) {
+  const initialData = initialProductData.initialProductData;
+  console.log("form initData:", initialData);
+
   const {
     register,
     handleSubmit,
@@ -27,6 +43,7 @@ export default function AddProductForm() {
     formState: { errors },
     setValue,
     reset,
+    watch,
   } = useForm<AddProductForm>({
     resolver: yupResolver(productSchema),
     defaultValues: {
@@ -36,6 +53,21 @@ export default function AddProductForm() {
     },
   });
   const router = useRouter();
+  const { toast } = useToast();
+  const D3ImagePath = watch("image3DPath");
+
+  // mutation finction
+  const mutation = useApiMutation({
+    method: "post",
+    url: "/ManageProduct/AddProduct",
+    invalidateQueryKey: "products",
+  });
+  // edite mutation finction
+  const editeMutation = useApiMutation({
+    method: "put",
+    url: "/ManageProduct/EditProduct",
+    invalidateQueryKey: "products",
+  });
 
   // query to get all categories
   const { data } = useApiQuery<Categoryes>({
@@ -43,6 +75,7 @@ export default function AddProductForm() {
     url: "/ManageCategory/GetAllCategories",
   });
 
+  // colors form handle
   const {
     fields: colorFields,
     append: appendColor,
@@ -51,7 +84,7 @@ export default function AddProductForm() {
     control,
     name: "colors",
   });
-
+  // tags form handle
   const {
     fields: tagFields,
     append: appendTag,
@@ -60,6 +93,7 @@ export default function AddProductForm() {
     control,
     name: "tags",
   });
+  // images form handle
   const {
     fields: imageFields,
     append: appendImage,
@@ -69,12 +103,146 @@ export default function AddProductForm() {
     name: "imagesPath",
   });
 
+  // cover image
   const [imagePathName, setImagePathName] = useState("");
+  const [imagePathUrl, setImagePathUrl] = useState("");
+  // cover Images handler
+  const coverImageHandler = async (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      setImagePathName("در حال آپلود...");
+      const {
+        data: coverImage,
+        publicUrl,
+        errorMessage,
+        successMessage,
+      } = await saveFiler(file, "product");
+      if (errorMessage) {
+        toast({
+          description: errorMessage,
+          variant: "destructive",
+        });
+        setImagePathName("خطا در آپلود");
+        return;
+      }
+      if (successMessage) {
+        toast({
+          description: successMessage,
+          variant: "success",
+        });
+        setImagePathUrl(publicUrl);
+        setImagePathName(file.name);
+        setValue("imagePath", publicUrl, {
+          shouldValidate: true,
+          shouldDirty: true,
+        });
+      }
+    }
+  };
+
+  // 3D image
   const [image3DPathName, setImage3DPathName] = useState("");
-  const [imagesNames, setImagesNames] = useState<Image[]>([{ image: "" }]);
+  const [image3DName, setImage3DName] = useState("");
+  // 3D image handler
+  const dImageHandler = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    setImage3DPathName("در حال آپلود...");
+    const file = event.target.files?.[0];
+    if (file) {
+      const {
+        data: dImage,
+        publicUrl,
+        errorMessage,
+        successMessage,
+      } = await saveFiler(file, "3DImage");
+      if (errorMessage) {
+        toast({
+          description: errorMessage,
+          variant: "destructive",
+        });
+        setImage3DPathName("خطا در آپلود");
+        return;
+      }
+      if (successMessage) {
+        toast({
+          description: successMessage,
+          variant: "success",
+        });
+        setImage3DPathName(file.name);
+        setValue("image3DPath", publicUrl);
+        setImage3DName(dImage.path);
+      }
+    }
+  };
+  // galey images
+  const [imagesNames, setImagesNames] = useState<ProductImage[]>([
+    { image: "" },
+  ]);
+  const [imagesUrl, setImagesUrl] = useState<string[]>([]);
+  // gallery image handler
+  const galleryImageHandler = async (imagefile: File) => {
+    const {
+      data: galleryImage,
+      publicUrl,
+      errorMessage,
+      successMessage,
+    } = await saveFiler(imagefile, "product");
+    if (errorMessage) {
+      toast({
+        description: errorMessage,
+        variant: "destructive",
+      });
+      return;
+    }
+    if (successMessage) {
+      toast({
+        description: successMessage,
+        variant: "success",
+      });
+      setImagesUrl((prev) => [...prev, publicUrl]);
+    }
+    return publicUrl;
+  };
+
+  // handle initial data for edit product
+  useEffect(() => {
+    if (initialProductData) {
+      // پر کردن فرم با دیتا
+      reset({
+        ...initialData?.product,
+        colors: initialData?.colors?.length
+          ? initialData?.colors
+          : [{ color: "", codeColor: "", price: 0, discount: 0, number: 0 }],
+        tags: initialData?.tags?.length ? initialData?.tags : [{ tag: "" }],
+        imagesPath: initialData?.imagesPath?.length
+          ? initialData?.imagesPath
+          : [{ image: "" }],
+      });
+
+      // ست کردن image names
+      setImagePathName(getFileName(initialData?.product.imagePath || ""));
+      setImage3DPathName(getFileName(initialData?.product.image3DPath || ""));
+      setImagesNames(
+        initialData?.imagesPath?.length
+          ? initialData.imagesPath.map((img) => ({
+              image: getFileName(img.image) || "",
+            }))
+          : [{ image: "" }]
+      );
+
+      setImagePathUrl(initialData?.product.imagePath || "");
+      setImage3DName(initialData?.product.image3DPath || "");
+      setImagesUrl(initialData?.imagesPath?.map((img) => img.image) || []);
+    }
+  }, [initialProductData, reset]);
 
   const onSubmit = (data: AddProductForm) => {
     console.log("📦 محصول ثبت شد:", data);
+    if (!initialData) {
+      console.log("ایجاد محصول جدید");
+      mutation.mutate(data);
+    } else editeMutation.mutate({ ...data, id: initialData?.product.id });
   };
 
   return (
@@ -88,7 +256,9 @@ export default function AddProductForm() {
           className="absolute right-0 cursor-pointer"
           onClick={() => router.back()}
         />
-        <p className="text-md md:text-lg">ایجاد کالای جدید</p>
+        <p className="text-md md:text-lg">
+          {initialData ? "ویرایش کالای موجود" : "ایجاد کالای جدید"}
+        </p>
       </div>
 
       {/* 🔸 فیلد عمومی (غیر از تصاویر) */}
@@ -398,13 +568,7 @@ export default function AddProductForm() {
             type="file"
             accept="image/*"
             className="hidden"
-            onChange={(e) => {
-              const file = e.target.files?.[0];
-              if (file) {
-                setImage3DPathName(file.name);
-                setValue("image3DPath", file.name);
-              }
-            }}
+            onChange={(e) => dImageHandler(e)}
           />
 
           {errors?.image3DPath && (
@@ -414,6 +578,34 @@ export default function AddProductForm() {
           )}
         </div>
       </div>
+      {/* show 3D image prewiew */}
+      {image3DName && (
+        <div className="w-full flex p-3">
+          <div className="shadow-md px-4 py-1 bg-input rounded-lg relative">
+            <p className="text-xs md:text-sm text-subtle-foreground truncate max-w-[100px]">
+              {image3DName}
+            </p>
+
+            <div
+              className="absolute top-[-5px] left-[-5px] cursor-pointer"
+              onClick={async () => {
+                await deleteImage("3DImage", D3ImagePath);
+                setImage3DName("");
+                setValue("image3DPath", "", {
+                  shouldValidate: true,
+                  shouldDirty: true,
+                });
+                setImage3DPathName("");
+              }}
+            >
+              <X
+                size={14}
+                className="text-white bg-destructive rounded-full p-[1px]"
+              />
+            </div>
+          </div>
+        </div>
+      )}
       {/* 🔸 مسیر عکس اصلی */}
       <div className="py-6">
         <label className="block text-muted-foreground text-sm md:text-[16px] mb-1">
@@ -439,17 +631,7 @@ export default function AddProductForm() {
             type="file"
             accept="image/*"
             className="hidden"
-            onChange={(e) => {
-              const file = e.target.files?.[0];
-              if (file) {
-                setImagePathName(file.name);
-                setValue("imagePath", file.name);
-                setValue("imagePath", file.name, {
-                  shouldValidate: true,
-                  shouldDirty: true,
-                });
-              }
-            }}
+            onChange={(e) => coverImageHandler(e)}
           />
 
           {errors?.imagePath?.message && (
@@ -459,6 +641,38 @@ export default function AddProductForm() {
           )}
         </div>
       </div>
+      {imagePathUrl && (
+        <div className="w-full flex justify-center p-3 pb-5">
+          <div className="shadow-md px-4 py-1 rounded-lg relative">
+            <div className="relative w-[150px] h-[150px] rounded-lg overflow-hidden text-xs md:text-sm text-subtle-foreground ">
+              <Image
+                src={imagePathUrl}
+                alt={imagePathName}
+                fill
+                objectFit="cover"
+                loading="lazy"
+              />
+            </div>
+            <div
+              className="absolute top-[-10px] left-[-10px] cursor-pointer"
+              onClick={async () => {
+                await deleteImage("product", imagePathUrl);
+                setImagePathName("");
+                setValue("imagePath", "", {
+                  shouldValidate: true,
+                  shouldDirty: true,
+                });
+                setImagePathUrl("");
+              }}
+            >
+              <X
+                size={20}
+                className="text-white bg-destructive rounded-full p-[3px]"
+              />
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* 🔸 تصاویر بیشتر */}
       <div>
@@ -492,14 +706,19 @@ export default function AddProductForm() {
                     type="file"
                     accept="image/*"
                     className="hidden"
-                    onChange={(e) => {
+                    onChange={async (e) => {
                       const file = e.target.files?.[0];
                       if (file) {
                         controllerField.onChange(file.name);
-
                         const updated = [...imagesNames];
-                        updated[index] = { image: file.name };
+                        updated[index] = { image: "در حال آپلود..." };
                         setImagesNames(updated);
+                        const publicUrl = await galleryImageHandler(file);
+                        updated[index] = { image: file.name };
+                        setImagesNames([...updated]);
+                        if (publicUrl) {
+                          setValue(`imagesPath.${index}.image`, publicUrl);
+                        }
                       }
                     }}
                   />
@@ -518,13 +737,16 @@ export default function AddProductForm() {
                       const updated = [...imagesNames];
                       updated.splice(index, 1);
                       setImagesNames(updated);
+                      const updatedUrl = [...imagesUrl];
+                      updatedUrl.splice(index, 1);
+                      setImagesUrl(updatedUrl);
                     }}
                     className="text-destructive "
                     variant="ghost"
                   >
                     <span className="flex gap-x-2">
                       <span>
-                        <Trash2 className="" />
+                        <Trash2 />
                       </span>
                     </span>
                   </Button>
@@ -533,7 +755,6 @@ export default function AddProductForm() {
             )}
           />
         ))}
-
         <Button
           type="button"
           onClick={() => {
@@ -550,6 +771,46 @@ export default function AddProductForm() {
             <span>افزودن تصویر جدید</span>
           </span>
         </Button>
+        {imagesUrl && (
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-y-6 gap-x-2 mt-8  ">
+            {imagesUrl.map((image, index) => (
+              <div
+                key={index}
+                className="flex items-center gap-x-2 mx-auto  relative"
+              >
+                <div className="relative w-[100px] h-[100px] rounded-lg overflow-hidden text-xs md:text-sm text-subtle-foreground ">
+                  <Image
+                    src={image}
+                    alt={`Gallery image ${index + 1}`}
+                    fill
+                    objectFit="cover"
+                    loading="lazy"
+                  />
+                </div>
+                <div
+                  onClick={async () => {
+                    await deleteImage("product", image);
+                    removeImage(index);
+                    console.log(index);
+                    const updatedPrew = [...imagesNames];
+                    updatedPrew.splice(index, 1);
+                    setImagesNames(updatedPrew);
+
+                    const updated = [...imagesUrl];
+                    updated.splice(index, 1);
+                    setImagesUrl(updated);
+                  }}
+                  className="text-destructive absolute top-[-10px] left-[-10px] cursor-pointer"
+                >
+                  <X
+                    className="bg-destructive text-white p-[3px] rounded-full"
+                    size={20}
+                  />
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
 
         <p className="text-destructive text-xs mt-1">
           {errors.imagesPath?.message}
@@ -601,7 +862,7 @@ export default function AddProductForm() {
 
       {/* 🔸 دکمه نهایی */}
       <Button type="submit" className="w-full" variant="dimsop" size="lg">
-        ایجاد کالا
+        {initialData ? "ویرایش کالا" : "ایجاد کالا"}
       </Button>
     </form>
   );

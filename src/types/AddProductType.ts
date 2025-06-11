@@ -12,7 +12,7 @@ export type AddProductForm = {
   colors: Color[];
   image3DPath: string;
   imagePath: string;
-  imagesPath: Image[];
+  imagesPath: ProductImage[];
 };
 
 export type Tag = {
@@ -25,6 +25,6 @@ export type Color = {
   discount: number;
   number: number;
 };
-export type Image = {
+export type ProductImage = {
   image: string;
 };
