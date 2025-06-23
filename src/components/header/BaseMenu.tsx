@@ -6,6 +6,7 @@ import Menu from "./Menu";
 import SsrThemeImage from "../Ssr-Theme-image";
 import DesktopSearchBarModall from "./desktop/DesktopSearchModal";
 import MobileSerchDrawer from "./mobile/MobileSerchDrawer";
+import MainChart from "../chart/MainChart";
 
 export default function BaseMenu() {
   
@@ -30,7 +31,8 @@ export default function BaseMenu() {
         {/* منوی ابزار */}
         <div className="hidden lg:block">
           <div className="flex items-center gap-1 sm:gap-2 md:gap-3 lg:gap-4 flex-shrink-0">
-            <ShoppingCart className="h-6 w-6" />
+            {/* <ShoppingCart className="h-6 w-6" /> */}
+            <MainChart />
             <ThemeToggleButton />
             <Menu />
           </div>

@@ -1,3 +1,5 @@
+import MainBanners from "@/components/banners/MainBanners";
+import MainChart from "@/components/chart/MainChart";
 import FullMenuSSR from "@/components/header/FullMenuSSR";
 import BodyPrvider from "@/components/ui-providers/BodyProvider";
 import UserServerTest from "@/components/UserServerTest";
@@ -14,6 +16,7 @@ export default function Home() {
           <UserServerTest />
         </div>
         <p>{theme}</p>
+        <MainBanners />
         <p>
           Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quidem,
           perferendis, praesentium similique vero maxime aliquid adipisci,

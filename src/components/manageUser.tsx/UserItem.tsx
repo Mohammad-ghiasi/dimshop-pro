@@ -31,8 +31,10 @@ export default function UserItem({
     url: "ManageUsers/DeleteUser",
     invalidateQueryKey: "userManager",
     onSuccessMessage: "کاربر حذف شد",
-    onErrorMessage: "خطا درحذف کربر",
+    onErrorMessage: "خطا درحذف کاربر",
   });
+  console.log(user);
+  
 
   return (
     <tr
@@ -61,13 +63,13 @@ export default function UserItem({
             {user.user.email || "نامشخص"}
           </p>
           <span
-            className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium mt-1 w-fit ${
-              user.user.email
+            className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-medium mt-1 w-fit ${
+              user.user.emailConfirmed
                 ? "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200"
                 : "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200"
             }`}
           >
-            {user.user.email ? "تایید شده" : "تایید نشده"}
+            {user.user.emailConfirmed ? "تایید شده" : "تایید نشده"}
           </span>
         </div>
       </td>

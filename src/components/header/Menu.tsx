@@ -62,11 +62,11 @@ export default async function Menu() {
     <>
       <Menubar className="  border-none shadow-none">
         <MenubarMenu>
-          <MenubarTrigger className="p-0 rounded-full overflow-hidden focus:scale-100 border-0 ">
+          <MenubarTrigger className="p-0 rounded-full overflow-hidden focus:scale-100">
             {" "}
             {/* اضافه کردن استایل‌های کنترل‌کننده */}
             <Avatar className="h-8 w-8 md:h-10 md:w-10 shadow-md cursor-pointer bg-muted-foreground">
-       {/* اندازه ثابت */}
+              {/* اندازه ثابت */}
               <AvatarImage
                 src={data?.data.user.imagePath || "/default-avatar.png"}
                 className="object-cover w-full h-full"
