@@ -267,6 +267,7 @@ export default function AddProductForm(initialProductData: initialFomrProp) {
           نام کالا
         </label>
         <Input
+          className="text-xs md:text-sm"
           {...register("name")}
           placeholder="نام کالا"
           type={"text"}
@@ -279,6 +280,7 @@ export default function AddProductForm(initialProductData: initialFomrProp) {
           کلمات کلیدی
         </label>
         <Input
+          className="text-xs md:text-sm"
           placeholder="کلمات کلیدی (کلیدواژه‌ها)"
           {...register("slack")}
           type={"text"}
@@ -291,6 +293,7 @@ export default function AddProductForm(initialProductData: initialFomrProp) {
           برند
         </label>
         <Input
+          className="text-xs md:text-sm"
           placeholder="برند کالا"
           {...register("brand")}
           type={"text"}
@@ -303,6 +306,7 @@ export default function AddProductForm(initialProductData: initialFomrProp) {
           موجودی کالا
         </label>
         <Input
+          className="text-xs md:text-sm"
           placeholder="تعداد موجودی کالا"
           {...register("number")}
           type={"text"}
@@ -315,6 +319,7 @@ export default function AddProductForm(initialProductData: initialFomrProp) {
           قیمت اصلی
         </label>
         <Input
+          className="text-xs md:text-sm"
           placeholder="قیمت اصلی (بدون تخفیف)"
           {...register("price")}
           type={"text"}
@@ -327,6 +332,7 @@ export default function AddProductForm(initialProductData: initialFomrProp) {
           درصد تخفیف
         </label>
         <Input
+          className="text-xs md:text-sm"
           placeholder="درصد تخفیف (0-100)"
           {...register("discount")}
           type={"text"}
@@ -398,6 +404,7 @@ export default function AddProductForm(initialProductData: initialFomrProp) {
           <div key={field.id} className="flex items-start gap-2 mb-2">
             <div className="flex flex-col w-full">
               <Input
+                className="text-xs md:text-sm"
                 {...register(`tags.${index}.tag`)}
                 type={"text"}
                 placeholder={`تگ ${index + 1}`}
@@ -446,6 +453,7 @@ export default function AddProductForm(initialProductData: initialFomrProp) {
                 نام رنگ
               </label>
               <Input
+                className="text-xs md:text-sm"
                 {...register(`colors.${index}.color`)}
                 type={"text"}
                 placeholder="مثلا سفید"
@@ -458,6 +466,7 @@ export default function AddProductForm(initialProductData: initialFomrProp) {
                 کد رنگ
               </label>
               <Input
+                className="text-xs md:text-sm"
                 {...register(`colors.${index}.codeColor`)}
                 type={"text"}
                 placeholder=" مثلا FFFFFF#"
@@ -471,6 +480,7 @@ export default function AddProductForm(initialProductData: initialFomrProp) {
                 قیمت این رنگ
               </label>
               <Input
+                className="text-xs md:text-sm"
                 {...register(`colors.${index}.price`)}
                 type={"text"}
                 placeholder="قیمت کالا در این رنگ"
@@ -483,6 +493,7 @@ export default function AddProductForm(initialProductData: initialFomrProp) {
                 تخفیف این رنگ
               </label>
               <Input
+                className="text-xs md:text-sm"
                 {...register(`colors.${index}.discount`)}
                 type={"text"}
                 placeholder="تخفیف کالا در این رنگ"
@@ -495,6 +506,7 @@ export default function AddProductForm(initialProductData: initialFomrProp) {
                 موجودی این رنگ
               </label>
               <Input
+                className="text-xs md:text-sm"
                 {...register(`colors.${index}.number`)}
                 type={"text"}
                 placeholder="موجودی این از کالا"
