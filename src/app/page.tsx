@@ -1,6 +1,6 @@
 import MainBanners from "@/components/banners/MainBanners";
-import MainChart from "@/components/chart/MainChart";
 import FullMenuSSR from "@/components/header/FullMenuSSR";
+import SimpleProduct from "@/components/homeProducts/SimpleProduct";
 import BodyPrvider from "@/components/ui-providers/BodyProvider";
 import UserServerTest from "@/components/UserServerTest";
 import { cookies } from "next/headers";
@@ -9,7 +9,6 @@ export default function Home() {
     const theme = cookies().get("theme")?.value
   return (
     <>
-      {/* <FullMenu><BaseMenu /></FullMenu> */}
       <FullMenuSSR />
       <BodyPrvider>
         <div className="my-10">
@@ -17,8 +16,9 @@ export default function Home() {
         </div>
         <p>{theme}</p>
         <MainBanners />
-        <p>
-          Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quidem,
+        <SimpleProduct />
+        <p className="pt-4">
+         mmmmmm Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quidem,
           perferendis, praesentium similique vero maxime aliquid adipisci,
           mollitia commodi nihil vitae officiis! Fugiat facilis similique,
           maiores voluptatem nesciunt ipsam! Corrupti, dolore. A iusto

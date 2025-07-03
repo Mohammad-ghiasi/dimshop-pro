@@ -24,8 +24,6 @@ export default function BannerPage() {
     url: "/ManagePages/GetBanners",
   });
 
-  console.log(data);
-
   const addMutationBanner = useApiMutation({
     method: "post",
     url: "/ManagePages/AddBanner",

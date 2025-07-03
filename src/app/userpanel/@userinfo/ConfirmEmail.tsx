@@ -10,7 +10,7 @@ export default function ConfirmEmail({email}: {email?: string}) {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Badge className="absolute left-2 top-[18px]  -translate-y-1/2 z-10 text-xs px-2 py-0.5 pt-[4px] text-gray-700 text-[10px] bg-warning cursor-pointer">
+        <Badge className="absolute left-2 top-[22px]  -translate-y-1/2 z-10 text-xs px-2 py-0.5 pt-[4px] text-gray-700 text-[10px] bg-warning cursor-pointer">
           تأیید نشده
         </Badge>
       </DialogTrigger>

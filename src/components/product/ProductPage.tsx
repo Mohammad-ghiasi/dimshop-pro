@@ -12,7 +12,6 @@ export default function ProductPage() {
     queryKey: ["products"],
     url: "/ManageProduct/GetAllProducts",
   });
-  console.log(data);
   const mutation = useApiMutation({
     method: "delete",
     url: "/ManageProduct/DeleteProduct",

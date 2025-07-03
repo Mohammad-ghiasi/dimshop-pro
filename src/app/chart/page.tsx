@@ -1,9 +1,13 @@
-import React from 'react'
-
-export default function page() {
+import FullMenuSSR from '@/components/header/FullMenuSSR'
+import BodyPrvider from '@/components/ui-providers/BodyProvider'
+export default function ChartPage() {
   return (
-    <div>
-      <p>chart page</p>
-    </div>
+    <>
+    <FullMenuSSR />
+    <BodyPrvider>
+      سبد خرید
+    </BodyPrvider>
+    {/* ننن */}
+    </>
   )
 }

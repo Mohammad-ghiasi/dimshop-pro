@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { ShoppingCart } from "lucide-react";
 import HeaderPrvider from "../ui-providers/HeaderPrvider";
 import ThemeToggleButton from "../Toggle-mode";
 import Menu from "./Menu";

@@ -261,7 +261,7 @@ export default function UserProfilePage() {
 
               <div className="relative">
                 {data?.user.emailConfirmed ? (
-                  <Badge className="absolute left-2 top-[18px]  -translate-y-1/2 z-10 text-xs px-2 py-0.5 pt-[4px] text-white text-[10px] bg-success">
+                  <Badge className="absolute left-2 top-[22px]  -translate-y-1/2 z-10 text-xs px-2 py-0.5 pt-[4px] text-white text-[10px] bg-success">
                     تأیید شده
                   </Badge>
                 ) : (
@@ -301,7 +301,7 @@ export default function UserProfilePage() {
                 <div className="relative">
                   {data?.user.phoneNumberConfirmed !== undefined && (
                     <Badge
-                      className={`absolute left-2 top-[18px] -translate-y-1/2 z-10 px-2 py-0.5 pt-[4px] text-warning-foreground text-[10px] text-white  ${
+                      className={`absolute left-2 top-[22px] -translate-y-1/2 z-10 px-2 py-0.5 pt-[4px] text-warning-foreground text-[10px] text-white  ${
                         data?.user.phoneNumberConfirmed
                           ? "bg-success"
                           : "bg-warning cursor-pointer"
