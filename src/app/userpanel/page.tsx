@@ -1,6 +1,5 @@
 "use client";
 import ThemeImage from "@/components/Theme-Image";
-import ThemeToggleButton from "@/components/Toggle-mode";
 import { UserProfile } from "@/types/useProfile";
 import { ShoppingCart } from "lucide-react";
 import Link from "next/link";
@@ -10,6 +9,7 @@ import SheetNav from "@/components/navigation/SheetNav";
 import { useApiQuery } from "@/hooks/useQuery";
 import { getSimpleCookie } from "@/lib/cookies";
 import { persianNumbers } from "@/lib/parsianNumber";
+import ThemeToggleButton from "@/components/toggleMode/Toggle-mode";
 
 export default function Page() {
   const { data } = useApiQuery<UserProfile>({
@@ -60,14 +60,14 @@ export default function Page() {
         {/* منوی ابزار */}
         <div>
           <div className="flex items-center gap-1 sm:gap-2 md:gap-3 lg:gap-4 flex-shrink-0 relative">
-         
-               <ShoppingCart />
-        {hasItems && (
-          <span className="absolute -top-1 -right-1 bg-red-500 w-[15px] h-[15px] md:w-[17px] md:h-[17px] text-white text-[10px] md:text-xs rounded-sm md:rounded-md flex items-center justify-center pt-[1px] md:pt-1">
-            {persianNumbers(String(chartCount))}
-          </span>
-        )}
-      
+            <Link href="/chart">
+              <ShoppingCart />
+              {hasItems && (
+                <span className="absolute -top-1 -right-1 bg-red-500 w-[15px] h-[15px] md:w-[17px] md:h-[17px] text-white text-[10px] md:text-xs rounded-sm md:rounded-md flex items-center justify-center pt-[1px] md:pt-1">
+                  {persianNumbers(String(chartCount))}
+                </span>
+              )}
+            </Link>
 
             <div className="hidden lg:block">
               <ThemeToggleButton />

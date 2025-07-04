@@ -2,7 +2,6 @@ import MainBanners from "@/components/banners/MainBanners";
 import FullMenuSSR from "@/components/header/FullMenuSSR";
 import SimpleProduct from "@/components/homeProducts/SimpleProduct";
 import BodyPrvider from "@/components/ui-providers/BodyProvider";
-import UserServerTest from "@/components/UserServerTest";
 import { cookies } from "next/headers";
 
 export default function Home() {
@@ -12,7 +11,6 @@ export default function Home() {
       <FullMenuSSR />
       <BodyPrvider>
         <div className="my-10">
-          <UserServerTest />
         </div>
         <p>{theme}</p>
         <MainBanners />

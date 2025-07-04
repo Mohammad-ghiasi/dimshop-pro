@@ -29,7 +29,7 @@ import PersianDate from "../JaliliDtae";
 import { useRouter } from "next/navigation";
 import ScrollNav from "./ScrollNav";
 import Link from "next/link";
-import ThemeToggleButtonText from "../Toggle-mode-textButton";
+import ThemeToggleButtonText from "../toggleMode/Toggle-mode-textButton";
 
 export default function SheetNav({ data }: { data?: UserProfile }) {
   const [active, setActive] = useState<activeType>("userinfo");

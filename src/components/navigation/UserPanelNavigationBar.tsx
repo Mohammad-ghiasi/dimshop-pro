@@ -18,7 +18,7 @@ import api from "@/lib/api";
 import Link from "next/link";
 import ScrollNav from "@/components/navigation/ScrollNav";
 import { useState } from "react";
-import ThemeToggleButtonText from "../Toggle-mode-textButton";
+import ThemeToggleButtonText from "../toggleMode/Toggle-mode-textButton";
 import { eraseCookie } from "@/lib/cookies";
 import { useRouter } from "next/navigation";
 import PersianDate from "../JaliliDtae";

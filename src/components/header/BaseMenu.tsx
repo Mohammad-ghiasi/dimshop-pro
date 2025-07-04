@@ -1,11 +1,11 @@
 import Link from "next/link";
 import HeaderPrvider from "../ui-providers/HeaderPrvider";
-import ThemeToggleButton from "../Toggle-mode";
 import Menu from "./Menu";
 import SsrThemeImage from "../Ssr-Theme-image";
 import DesktopSearchBarModall from "./desktop/DesktopSearchModal";
 import MobileSerchDrawer from "./mobile/MobileSerchDrawer";
 import MainChart from "../chart/MainChart";
+import ThemeToggleButton from "../toggleMode/Toggle-mode";
 
 export default function BaseMenu() {
   

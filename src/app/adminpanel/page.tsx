@@ -1,5 +1,5 @@
 "use client"
-import ThemeToggleButton from "@/components/Toggle-mode";
+import ThemeToggleButton from "@/components/toggleMode/Toggle-mode";
 import BodyPrvider from "@/components/ui-providers/BodyProvider";
 import Link from "next/link";
 
